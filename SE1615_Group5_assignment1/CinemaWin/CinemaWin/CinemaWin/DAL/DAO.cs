@@ -62,5 +62,6 @@ namespace CinemaWin.DAL
         }
 
         //tao thay doi de commit
+        //tao them thay doi de commit
     }
 }
