@@ -61,6 +61,6 @@ namespace CinemaWin.DAL
             conn.Close();
         }
 
-
+        //tao thay doi de commit
     }
 }
