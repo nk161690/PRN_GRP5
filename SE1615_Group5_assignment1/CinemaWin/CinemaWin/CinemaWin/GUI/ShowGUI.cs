@@ -85,22 +85,23 @@ namespace CinemaWin.GUI
                 ShowAddEditGUI f = new ShowAddEditGUI(show);
                 DialogResult dr = f.ShowDialog(); 
             }
-            //if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
-            //{
-            //    //int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-            //    //Show show = ShowDAO.GetInstance().GetById(showId);
+            if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
+            {
+                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                Show show = context.Shows.Find(showId);
 
-            //    //if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    //{
-            //    //    ShowDAO.GetInstance().Delete(show.ShowId);
-            //    //    MessageBox.Show("Deleted");
-            //    //}
+                if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    context.Shows.Remove(show);
+                    context.SaveChanges();
+                    MessageBox.Show("Deleted");
+                }
 
-            //    //bindGrid3();
+                bindGrid3();
 
-            //}
+            }
         }
-     
+
         private void label1_Click(object sender, EventArgs e)
         {
 
