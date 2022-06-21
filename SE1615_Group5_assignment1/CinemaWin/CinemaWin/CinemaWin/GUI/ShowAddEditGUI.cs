@@ -1,5 +1,4 @@
-﻿using CinemaWin.DAL;
-using CinemaWin.DTL;
+﻿using CinemaWin.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,213 +15,117 @@ namespace CinemaWin.GUI
 {
     public partial class ShowAddEditGUI : Form
     {
-        int add;
+        int showId;
+        CinemaContext context;
         public ShowAddEditGUI(Show show)
         {
             InitializeComponent();
-            if (show == null) add = 1;
-            else add = 0;
-            cboRoomId.DataSource = RoomDAO.GetInstance().GetDataTable();
+            context = new CinemaContext();
+            if (show == null) showId = 0;
+            else showId = show.ShowId;
+            cboRoomId.DataSource = context.Rooms.ToList<Room>();
             cboRoomId.DisplayMember = "Name";
-            cboRoomId.ValueMember = "RoomId";
-            cboFilmId.DataSource = FilmDAO.GetInstance().GetDataTable();
+            cboRoomId.ValueMember = "RoomId"; 
+            cboFilmId.DataSource = context.Films.ToList<Film>();
             cboFilmId.DisplayMember = "Title";
             cboFilmId.ValueMember = "FilmID";
 
-            if (add == 1)
-            {
-                cboRoomId.Enabled = true;
-                dtpShowDate.Enabled = true;
-            }
-            else if (add == 0)
+            if(showId != 0)
             {
                 cboRoomId.SelectedValue = show.RoomId;
-                dtpShowDate.Value = show.ShowDate;
-                cboFilmId.SelectedValue = show.FilmId;
+                dtpShowDate.Value = (DateTime)show.ShowDate;
                 txtPrice.Text = show.Price.ToString();
-                txtshowid.Text = show.ShowId.ToString();                            
-                cboSlot.Items.Add(show.Slot);
-                cboSlot.SelectedIndex = cboSlot.Items.Count-1;
-                btnSave.Enabled = false;
+                cboFilmId.SelectedValue = show.FilmId;
+                bool[] slots = new bool[9];
+                List<Show> shows = context.Shows.
+                    Where(s => s.RoomId == show.RoomId
+                    && s.ShowDate == show.ShowDate
+                    && s.ShowId == show.ShowId).ToList<Show>();
+                foreach(Show s in shows)
+                {
+                    slots[(int)s.Slot - 1] = true;
+                }
+                List<int> ls = new List<int>();
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (slots[i] == false) ls.Add(i + 1);
+                }
+                cboSlot.DataSource = ls;
+                cboSlot.Text = show.Slot.ToString();
+            } else
+            {
+                cboRoomId.Enabled = true;
+                dtpShowDate.Enabled = true;              
             }
         }
 
-        private void ShowAddEditGUI_Load(object sender, EventArgs e)
+        private void cboRoomId_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            int rId;
+            Int32.TryParse(cboRoomId.SelectedValue.ToString(), out rId);
+            DateTime date = dtpShowDate.Value;
+            bool[] slots = new bool[9];
+            List<Show> shows = context.Shows.
+                Where(s => s.RoomId == rId
+                && s.ShowDate == date).ToList<Show>();
+            foreach (Show s in shows)
+            {
+                slots[(int)s.Slot - 1] = true;
+            }
+            List<int> ls = new List<int>();
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == false) ls.Add(i + 1);
+            }
+            cboSlot.DataSource = ls;
         }
+
+        private void dtpShowDate_ValueChanged(object sender, EventArgs e)
+        {
+            int rId = Convert.ToInt32(cboRoomId.SelectedValue.ToString().Trim());
+            DateTime date = dtpShowDate.Value;
+            bool[] slots = new bool[9];
+            List<Show> shows = context.Shows.
+                Where(s => s.RoomId == rId
+                && s.ShowDate == date).ToList<Show>();
+            foreach (Show s in shows)
+            {
+                slots[(int)s.Slot - 1] = true;
+            }
+            List<int> ls = new List<int>();
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == false) ls.Add(i + 1);
+            }
+            cboSlot.DataSource = ls;
+        }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            int roomid = (int)cboRoomId.SelectedValue;
-            int slot = (int)cboSlot.SelectedValue;
-
-            int filmid = (int)cboFilmId.SelectedValue;
-            string price = txtPrice.Text.ToString();
-            //Regex pattern = "^[0-9]$";
-            //if(price.)
             decimal prc;
-            DateTime showdate = dtpShowDate.Value;
-            if (Decimal.TryParse(price, out prc))
+            if (!Decimal.TryParse(txtPrice.Text.ToString(), out prc))
             {
-                if (cboRoomId.Enabled == false) //Edit
-                {
-                    int showid = Int32.Parse(txtshowid.Text.ToString());
-                    Show show = new Show
-                    {
-                        ShowId = showid,
-                        RoomId = roomid,
-                        FilmId = filmid,
-                        ShowDate = (DateTime)showdate,
-                        Slot = slot,
-                        Price = decimal.Parse(price)
-                    };
-                    ShowDAO.GetInstance().Update(show);
-                    MessageBox.Show("That show is edited!");
-                }
-                else //add
-                {
-                    Show show = new Show
-                    {
-                        RoomId = roomid,
-                        FilmId = filmid,
-                        ShowDate = (DateTime)showdate,
-                        Slot = slot,
-                        Price = decimal.Parse(price)
-                    };
-                    ShowDAO.GetInstance().Insert(show);
-                    MessageBox.Show("A new show is added!");
-                }
-            } else
-            {
-                MessageBox.Show("invalid price");
+                MessageBox.Show("Invalid Price!");
             }
-        }
-
-        public void dtpShowDate_ValueChanged(object sender, EventArgs e)
-        {
-            if (add == 1)
+            Show show = new Show
             {
-                int rId = Convert.ToInt32(cboRoomId.SelectedValue.ToString().Trim());
-                string date = dtpShowDate.Value.ToString("yyyy-MM-dd");
-                DataTable dt = ShowDAO.GetInstance().GetDataTable3(rId, date);
-                List<int> dataList = new List<int>();
-
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    for (int j = 0; j < dt.Columns.Count; j++)
-                    {
-                        int value = Convert.ToInt32(dt.Rows[i].ItemArray[j]);
-                        dataList.Add(value);
-                    }
-
-                }
-                List<int> slot = new List<int>();
-                slot.Add(1);
-                slot.Add(2);
-                slot.Add(3);
-                slot.Add(4);
-                slot.Add(5);
-                slot.Add(6);
-                slot.Add(7);
-                slot.Add(8);
-                slot.Add(9);
-                List<int> slotItem = slot.Except(dataList).ToList();
-                cboSlot.DataSource = slotItem;
-            }
-        }
-
-        public void cboRoomId_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (add == 1)
+                RoomId = (int)cboRoomId.SelectedValue,
+                FilmId = (int)cboFilmId.SelectedValue,
+                ShowDate = dtpShowDate.Value,
+                Slot = (int?)cboSlot.SelectedValue,
+                Price = prc
+            };
+            if (showId != 0)
             {
-                int rId;
-                if (Int32.TryParse(cboRoomId.SelectedValue.ToString(), out rId))
-                {
-                    rId = Int32.Parse(cboRoomId.SelectedValue.ToString());
-                    string date = dtpShowDate.Value.ToString("yyyy-MM-dd");
-                    DataTable dt = ShowDAO.GetInstance().GetDataTable3(rId, date);
-                    List<int> dataList = new List<int>();
-
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        for (int j = 0; j < dt.Columns.Count; j++)
-                        {
-                            int value = Convert.ToInt32(dt.Rows[i].ItemArray[j]);
-                            dataList.Add(value);
-                        }
-
-                    }
-                    List<int> slot = new List<int>();
-                    slot.Add(1);
-                    slot.Add(2);
-                    slot.Add(3);
-                    slot.Add(4);
-                    slot.Add(5);
-                    slot.Add(6);
-                    slot.Add(7);
-                    slot.Add(8);
-                    slot.Add(9);
-                    List<int> slotItem = slot.Except(dataList).ToList();
-                    cboSlot.DataSource = slotItem;
-                }
+                show.ShowId = showId;
+                context.Shows.Update(show);
             }
-        }
-       
-        private void cboSlot_Click(object sender, EventArgs e)
-        {
-            int rId = Int32.Parse(cboRoomId.SelectedValue.ToString());
-            string date = dtpShowDate.Value.ToString("yyyy-MM-dd");
-            DataTable dt = ShowDAO.GetInstance().GetDataTable3(rId, date);
-            List<int> dataList = new List<int>();
-
-            for (int i = 0; i < dt.Rows.Count; i++)
+            else
             {
-                for (int j = 0; j < dt.Columns.Count; j++)
-                {
-                    int value = Convert.ToInt32(dt.Rows[i].ItemArray[j]);
-                    dataList.Add(value);
-                }
-
+                context.Shows.Add(show);
             }
-            List<int> slot = new List<int>();
-            slot.Add(1);
-            slot.Add(2);
-            slot.Add(3);
-            slot.Add(4);
-            slot.Add(5);
-            slot.Add(6);
-            slot.Add(7);
-            slot.Add(8);
-            slot.Add(9);
-            List<int> slotItem = slot.Except(dataList).ToList();
-            cboSlot.DataSource = slotItem;
-            btnSave.Enabled = true;
-        }
-        
-        private void cboSlot_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        } 
-
-        private void cboFilmId_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtPrice_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-
+            context.SaveChanges();
         }
     }
 }

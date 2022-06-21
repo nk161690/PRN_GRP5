@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using CinemaWin.DAL;
-using CinemaWin.DTL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,32 +10,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CinemaWin.Models;
 
 namespace CinemaWin.GUI
 {
     public partial class ShowGUI : Form
-    {   
+    {
+        CinemaContext context;
         public ShowGUI()
         {
             InitializeComponent();
-            bindGrid();
-            cboFilm.DataSource = FilmDAO.GetInstance().GetDataTable();
-            cboFilm.DisplayMember = "Title";
-            cboFilm.ValueMember = "FilmID";
-            cboFilm.SelectedValue = 1;
+            context = new CinemaContext();
+            
+            cboFilmId.DataSource = context.Films.ToList<Film>();
+            cboFilmId.DisplayMember = "Title";
+            cboFilmId.ValueMember = "FilmID";
+            cboFilmId.SelectedValue = 1;
 
-            comboBoxRoom.DataSource = RoomDAO.GetInstance().GetDataTable();
-            comboBoxRoom.DisplayMember = "Name";
-            comboBoxRoom.ValueMember = "RoomID";
-            comboBoxRoom.SelectedValue = 1;
+            cboRoomId.DataSource = context.Rooms.ToList<Room>();
+            cboRoomId.DisplayMember = "Name";
+            cboRoomId.ValueMember = "RoomID";
+            cboRoomId.SelectedValue = 1;
+
+            bindGrid(false);
         }
         
 
-      public void bindGrid()
+      public void bindGrid(bool filter)
         {
-            DataTable dt = ShowDAO.GetInstance().GetDataTable();
-            dataGridView1.DataSource = dt;
-            int count = dt.Columns.Count;
+            dataGridView1.Columns.Clear();
+            dataGridView1.DataSource = context.Shows
+                .Where(s => s.FilmId == (filter ? (int)cboFilmId.SelectedValue : s.FilmId)
+                && s.ShowDate == (filter ? dtpShowDate.Value : s.ShowDate)
+                && s.RoomId == (filter ? (int)cboRoomId.SelectedValue : s.RoomId))
+                .OrderByDescending(s => s.ShowDate)
+                .ToList<Show>();
+            int count = dataGridView1.Columns.Count;
 
             DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn
             {
@@ -51,29 +59,20 @@ namespace CinemaWin.GUI
                 Text = "Delete",
                 UseColumnTextForButtonValue = true
             };
-
             dataGridView1.Columns.Insert(count, btnDelete);
-            dataGridView1.Columns.Insert(count, btnEdit);
-          if (Settings.UserName == "" || Settings.UserName == null)
-            {
-              dataGridView1.Columns.RemoveAt(count);
-              dataGridView1.Columns.RemoveAt(count);
-              btnAdd.Enabled = false;
-           }
+            dataGridView1.Columns.Insert(count, btnEdit);    
             dataGridView1.Columns["showid"].Visible = false;
             dataGridView1.Columns["status"].Visible = false;
+            //dataGridView1.Columns["Film"].Visible = false;
+           // dataGridView1.Columns["Room"].Visible = false;
+            //dataGridView1.Columns["Bookings"].Visible = false;
         }
         public void bindGrid3()
         {
-            DataTable dt = ShowDAO.GetInstance().GetDataTable();
-            dataGridView1.DataSource = dt;
-            
+            dataGridView1.DataSource = context.Shows.ToList<Show>();
         }
         void bindGrid2(int filmid, string showdate, int roomid)
-        {
-            DataTable dt = ShowDAO.GetInstance().GetDataTable2(roomid, filmid, showdate);
-            dataGridView1.DataSource = dt;
-            
+        {            
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -81,29 +80,25 @@ namespace CinemaWin.GUI
             if(e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
             {
                 int showId = (int) dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = ShowDAO.GetInstance().GetById(showId);
+                Show show = context.Shows.Find(showId);
                 
                 ShowAddEditGUI f = new ShowAddEditGUI(show);
-                DialogResult dr = f.ShowDialog();
-                bindGrid3();
-               
-               
-
+                DialogResult dr = f.ShowDialog(); 
             }
-            if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
-            {
-                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = ShowDAO.GetInstance().GetById(showId);
+            //if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
+            //{
+            //    //int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+            //    //Show show = ShowDAO.GetInstance().GetById(showId);
 
-                if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    ShowDAO.GetInstance().Delete(show.ShowId);
-                    MessageBox.Show("Deleted");
-                }
+            //    //if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            //    //{
+            //    //    ShowDAO.GetInstance().Delete(show.ShowId);
+            //    //    MessageBox.Show("Deleted");
+            //    //}
 
-                bindGrid3();
+            //    //bindGrid3();
 
-            }
+            //}
         }
      
         private void label1_Click(object sender, EventArgs e)
@@ -121,17 +116,9 @@ namespace CinemaWin.GUI
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
-            int filmid = (int)cboFilm.SelectedValue;
-            string showdate = ComboxShowDate.Value.ToString("yyyy-MM-dd");
-          
-            int roomid = (int)comboBoxRoom.SelectedValue;
-            bindGrid2(filmid, showdate, roomid);
-
-             //  MessageBox.Show(d.ToString());
-             MainGUI m = new MainGUI();
-            m.showToolStripMenuItem_Click();
+            bindGrid(true);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -172,6 +159,11 @@ namespace CinemaWin.GUI
         private void button1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            lblNo.Text = dataGridView1.Rows.Count.ToString();
         }
     }
 }

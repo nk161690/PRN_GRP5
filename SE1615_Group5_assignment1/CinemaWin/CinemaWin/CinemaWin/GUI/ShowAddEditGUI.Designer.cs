@@ -41,7 +41,7 @@ namespace CinemaWin.GUI
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtshowid = new System.Windows.Forms.TextBox();
+            this.txtShowId = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cboRoomId
@@ -76,8 +76,6 @@ namespace CinemaWin.GUI
             this.cboSlot.Name = "cboSlot";
             this.cboSlot.Size = new System.Drawing.Size(182, 33);
             this.cboSlot.TabIndex = 2;
-            this.cboSlot.SelectedIndexChanged += new System.EventHandler(this.cboSlot_SelectedIndexChanged);
-            this.cboSlot.Click += new System.EventHandler(this.cboSlot_Click);
             // 
             // cboFilmId
             // 
@@ -87,7 +85,6 @@ namespace CinemaWin.GUI
             this.cboFilmId.Name = "cboFilmId";
             this.cboFilmId.Size = new System.Drawing.Size(182, 33);
             this.cboFilmId.TabIndex = 3;
-            this.cboFilmId.SelectedIndexChanged += new System.EventHandler(this.cboFilmId_SelectedIndexChanged);
             // 
             // txtPrice
             // 
@@ -96,7 +93,6 @@ namespace CinemaWin.GUI
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(150, 31);
             this.txtPrice.TabIndex = 4;
-            this.txtPrice.TextChanged += new System.EventHandler(this.txtPrice_TextChanged);
             // 
             // btnSave
             // 
@@ -120,7 +116,6 @@ namespace CinemaWin.GUI
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // label1
             // 
@@ -172,23 +167,21 @@ namespace CinemaWin.GUI
             this.label5.TabIndex = 11;
             this.label5.Text = "Price:";
             // 
-            // txtshowid
+            // txtShowId
             // 
-            this.txtshowid.Location = new System.Drawing.Point(569, 52);
-            this.txtshowid.Margin = new System.Windows.Forms.Padding(4);
-            this.txtshowid.Name = "txtshowid";
-            this.txtshowid.Size = new System.Drawing.Size(155, 31);
-            this.txtshowid.TabIndex = 12;
-            this.txtshowid.Visible = false;
-            this.txtshowid.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtShowId.Location = new System.Drawing.Point(587, 51);
+            this.txtShowId.Name = "txtShowId";
+            this.txtShowId.Size = new System.Drawing.Size(150, 31);
+            this.txtShowId.TabIndex = 12;
+            this.txtShowId.Visible = false;
             // 
             // ShowAddEditGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 469);
+            this.ClientSize = new System.Drawing.Size(490, 469);
             this.ControlBox = false;
-            this.Controls.Add(this.txtshowid);
+            this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -206,7 +199,6 @@ namespace CinemaWin.GUI
             this.Name = "ShowAddEditGUI";
             this.ShowInTaskbar = false;
             this.Text = "ShowAddEditGUI";
-            this.Load += new System.EventHandler(this.ShowAddEditGUI_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,6 +218,6 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtshowid;
+        private System.Windows.Forms.TextBox txtShowId;
     }
 }
