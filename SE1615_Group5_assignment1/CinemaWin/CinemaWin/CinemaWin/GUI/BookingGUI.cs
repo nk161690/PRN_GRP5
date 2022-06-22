@@ -87,6 +87,7 @@ namespace CinemaWin.GUI
             int showId = int.Parse(txtShowId.Text);
             BookingAddGUI add = new BookingAddGUI(context, showId);
             DialogResult dr = add.ShowDialog();
+            
         }
     }
 }

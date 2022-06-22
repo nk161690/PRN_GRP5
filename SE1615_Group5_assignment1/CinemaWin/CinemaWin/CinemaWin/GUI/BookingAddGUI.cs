@@ -84,6 +84,7 @@ namespace CinemaWin.GUI
             context.Bookings.Add(book);
             context.SaveChanges();
             MessageBox.Show("Your booking is saved!");
+            this.DialogResult = DialogResult.Cancel;         
         }
     }
 }
