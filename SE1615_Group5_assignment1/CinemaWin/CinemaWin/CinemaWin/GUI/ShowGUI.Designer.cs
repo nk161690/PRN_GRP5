@@ -54,7 +54,7 @@ namespace CinemaWin.GUI
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(1119, 236);
+            this.dataGridView1.Size = new System.Drawing.Size(1119, 296);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
@@ -162,7 +162,7 @@ namespace CinemaWin.GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1220, 565);
+            this.ClientSize = new System.Drawing.Size(1220, 619);
             this.Controls.Add(this.lblNo);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cboRoomId);
