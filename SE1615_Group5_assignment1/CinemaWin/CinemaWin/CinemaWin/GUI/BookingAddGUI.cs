@@ -14,18 +14,21 @@ namespace CinemaWin.GUI
     public partial class BookingAddGUI : Form
     {
         CinemaContext context = new CinemaContext();
+        char[] mySeats = new char[1000];
+        decimal amount, price;
         public BookingAddGUI(CinemaContext context, int showId)
         {
             InitializeComponent();
             this.context = context;
             Show show = context.Shows.Find(showId);
             txtShowId.Text = showId.ToString();
+            price = (decimal)show.Price;
             Room room = context.Rooms.Where(r => r.RoomId == show.RoomId).FirstOrDefault();
             int nRows = (int)room.NumberRows;
             int nCols = (int)room.NumberCols;
             string seatStatus = new string('0', nRows * nCols);
             char[] seats = seatStatus.ToCharArray();
-            //mySeats = seatStatus.ToCharArray();
+            mySeats = seatStatus.ToCharArray();
 
             var bookings = context.Bookings
                 .Where(b => b.ShowId == show.ShowId)
@@ -58,10 +61,10 @@ namespace CinemaWin.GUI
         private void Chk_CheckChanged(object sender, EventArgs e)
         {
             CheckBox chk = (CheckBox)sender;
-            //if (chk.Checked) amount += price;
-            //else amount -= price;
-            //txtAmount.Text = amount.toString();
-            //mySeats[int.Parse(chk.Name)] = chk.Checked ? '1' : '0';
+            if (chk.Checked) amount += price;
+            else amount -= price;
+            txtAmount.Text = amount.ToString();
+            mySeats[int.Parse(chk.Name)] = chk.Checked ? '1' : '0';
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -74,7 +77,7 @@ namespace CinemaWin.GUI
             Booking book = new Booking();
             book.ShowId =int.Parse(txtShowId.Text);
             book.Name = txtName.Text.ToString();
-            //book.SeatStatus = seatStatus;
+            book.SeatStatus = mySeats.ToString();
             book.Amount = decimal.Parse(txtAmount.Text);
 
             context.Bookings.Add(book);
