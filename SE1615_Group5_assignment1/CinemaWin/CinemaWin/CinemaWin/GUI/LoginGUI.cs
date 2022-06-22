@@ -38,5 +38,10 @@ namespace CinemaWin.GUI
                 MessageBox.Show("Don't have that user");
 
         }
+
+        private void LoginGUI_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -59,12 +59,20 @@ namespace CinemaWin.GUI
                 Text = "Delete",
                 UseColumnTextForButtonValue = true
             };
+            DataGridViewButtonColumn btnBooking = new DataGridViewButtonColumn
+            {
+                Name = "Booking",
+                Text = "Booking",
+                UseColumnTextForButtonValue = true
+            };
             dataGridView1.Columns.Insert(count, btnDelete);
             dataGridView1.Columns.Insert(count, btnEdit);
+            dataGridView1.Columns.Insert(count, btnBooking);
             if (Settings.UserName == "" || Settings.UserName == null)
             {
-                dataGridView1.Columns.RemoveAt(count);
-                dataGridView1.Columns.RemoveAt(count);
+                //dataGridView1.Columns.RemoveAt(count);
+                dataGridView1.Columns.RemoveAt(count+1);
+                dataGridView1.Columns.RemoveAt(count+1);
                 btnAdd.Enabled = false;
             }
             dataGridView1.Columns["showid"].Visible = false;
@@ -83,6 +91,22 @@ namespace CinemaWin.GUI
                 
                 ShowAddEditGUI edit = new ShowAddEditGUI(show);
                 DialogResult dr = edit.ShowDialog();
+            }
+            if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
+            {
+                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                Show show = context.Shows.Find(showId);
+
+                ShowAddEditGUI f = new ShowAddEditGUI(show);
+                DialogResult dr = f.ShowDialog();
+            }
+            if (e.ColumnIndex == dataGridView1.Columns["Booking"].Index)
+            {
+                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                Show show = context.Shows.Find(showId);
+
+                ShowAddEditGUI f = new ShowAddEditGUI(show);
+                DialogResult dr = f.ShowDialog();
             }
             if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
             {
