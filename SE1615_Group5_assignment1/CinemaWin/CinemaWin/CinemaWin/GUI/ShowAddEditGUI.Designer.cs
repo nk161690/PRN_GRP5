@@ -49,10 +49,10 @@ namespace CinemaWin.GUI
             this.cboRoomId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoomId.Enabled = false;
             this.cboRoomId.FormattingEnabled = true;
-            this.cboRoomId.Location = new System.Drawing.Point(193, 51);
+            this.cboRoomId.Location = new System.Drawing.Point(154, 41);
             this.cboRoomId.Margin = new System.Windows.Forms.Padding(2);
             this.cboRoomId.Name = "cboRoomId";
-            this.cboRoomId.Size = new System.Drawing.Size(182, 33);
+            this.cboRoomId.Size = new System.Drawing.Size(146, 28);
             this.cboRoomId.TabIndex = 0;
             this.cboRoomId.SelectedIndexChanged += new System.EventHandler(this.cboRoomId_SelectedIndexChanged);
             // 
@@ -61,46 +61,48 @@ namespace CinemaWin.GUI
             this.dtpShowDate.CustomFormat = "dd/MM/yyyy";
             this.dtpShowDate.Enabled = false;
             this.dtpShowDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpShowDate.Location = new System.Drawing.Point(193, 110);
+            this.dtpShowDate.Location = new System.Drawing.Point(154, 88);
             this.dtpShowDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpShowDate.Name = "dtpShowDate";
-            this.dtpShowDate.Size = new System.Drawing.Size(182, 31);
+            this.dtpShowDate.Size = new System.Drawing.Size(146, 27);
             this.dtpShowDate.TabIndex = 1;
             this.dtpShowDate.ValueChanged += new System.EventHandler(this.dtpShowDate_ValueChanged);
             // 
             // cboSlot
             // 
             this.cboSlot.FormattingEnabled = true;
-            this.cboSlot.Location = new System.Drawing.Point(193, 176);
+            this.cboSlot.Location = new System.Drawing.Point(154, 141);
             this.cboSlot.Margin = new System.Windows.Forms.Padding(2);
             this.cboSlot.Name = "cboSlot";
-            this.cboSlot.Size = new System.Drawing.Size(182, 33);
+            this.cboSlot.Size = new System.Drawing.Size(146, 28);
             this.cboSlot.TabIndex = 2;
+            this.cboSlot.DropDown += new System.EventHandler(this.cboSlot_DropDown);
+            this.cboSlot.SelectedIndexChanged += new System.EventHandler(this.cboSlot_SelectedIndexChanged);
             // 
             // cboFilmId
             // 
             this.cboFilmId.FormattingEnabled = true;
-            this.cboFilmId.Location = new System.Drawing.Point(193, 232);
+            this.cboFilmId.Location = new System.Drawing.Point(154, 186);
             this.cboFilmId.Margin = new System.Windows.Forms.Padding(2);
             this.cboFilmId.Name = "cboFilmId";
-            this.cboFilmId.Size = new System.Drawing.Size(182, 33);
+            this.cboFilmId.Size = new System.Drawing.Size(146, 28);
             this.cboFilmId.TabIndex = 3;
             // 
             // txtPrice
             // 
-            this.txtPrice.Location = new System.Drawing.Point(193, 294);
+            this.txtPrice.Location = new System.Drawing.Point(154, 235);
             this.txtPrice.Margin = new System.Windows.Forms.Padding(2);
             this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(150, 31);
+            this.txtPrice.Size = new System.Drawing.Size(121, 27);
             this.txtPrice.TabIndex = 4;
             // 
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(76, 369);
+            this.btnSave.Location = new System.Drawing.Point(61, 295);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(112, 34);
+            this.btnSave.Size = new System.Drawing.Size(90, 27);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -109,10 +111,10 @@ namespace CinemaWin.GUI
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(295, 369);
+            this.btnCancel.Location = new System.Drawing.Point(236, 295);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 34);
+            this.btnCancel.Size = new System.Drawing.Size(90, 27);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -120,66 +122,62 @@ namespace CinemaWin.GUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(87, 51);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(70, 41);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 25);
+            this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 7;
             this.label1.Text = "Room:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(98, 110);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(78, 88);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 25);
+            this.label2.Size = new System.Drawing.Size(44, 20);
             this.label2.TabIndex = 8;
             this.label2.Text = "Date:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(104, 176);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(83, 141);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 25);
+            this.label3.Size = new System.Drawing.Size(38, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "Slot:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(102, 235);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(82, 188);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 25);
+            this.label4.Size = new System.Drawing.Size(40, 20);
             this.label4.TabIndex = 10;
             this.label4.Text = "Film:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(104, 294);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(83, 235);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 25);
+            this.label5.Size = new System.Drawing.Size(44, 20);
             this.label5.TabIndex = 11;
             this.label5.Text = "Price:";
             // 
             // txtShowId
             // 
-            this.txtShowId.Location = new System.Drawing.Point(587, 51);
+            this.txtShowId.Location = new System.Drawing.Point(470, 41);
+            this.txtShowId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtShowId.Name = "txtShowId";
-            this.txtShowId.Size = new System.Drawing.Size(150, 31);
+            this.txtShowId.Size = new System.Drawing.Size(121, 27);
             this.txtShowId.TabIndex = 12;
             this.txtShowId.Visible = false;
             // 
             // ShowAddEditGUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 469);
+            this.ClientSize = new System.Drawing.Size(392, 375);
             this.ControlBox = false;
             this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.label5);

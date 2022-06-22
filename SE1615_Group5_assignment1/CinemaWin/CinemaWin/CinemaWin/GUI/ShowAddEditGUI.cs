@@ -25,12 +25,12 @@ namespace CinemaWin.GUI
             else showId = show.ShowId;
             cboRoomId.DataSource = context.Rooms.ToList<Room>();
             cboRoomId.DisplayMember = "Name";
-            cboRoomId.ValueMember = "RoomId"; 
+            cboRoomId.ValueMember = "RoomId";
             cboFilmId.DataSource = context.Films.ToList<Film>();
             cboFilmId.DisplayMember = "Title";
             cboFilmId.ValueMember = "FilmID";
 
-            if(showId != 0)
+            if (showId != 0)
             {
                 cboRoomId.SelectedValue = show.RoomId;
                 dtpShowDate.Value = (DateTime)show.ShowDate;
@@ -41,17 +41,18 @@ namespace CinemaWin.GUI
                     Where(s => s.RoomId == show.RoomId
                     && s.ShowDate == show.ShowDate
                     && s.ShowId != show.ShowId).ToList<Show>();
-                foreach(Show s in shows)
+                foreach (Show s in shows)
                     slots[(int)s.Slot - 1] = true;
                 List<int> ls = new List<int>();
                 for (int i = 0; i < slots.Length; i++)
-                    if (slots[i] == false) ls.Add(i + 1);              
+                    if (slots[i] == false) ls.Add(i + 1);
                 cboSlot.DataSource = ls;
                 cboSlot.Text = show.Slot.ToString();
-            } else
+            }
+            else
             {
                 cboRoomId.Enabled = true;
-                dtpShowDate.Enabled = true;              
+                dtpShowDate.Enabled = true;
             }
         }
 
@@ -124,6 +125,34 @@ namespace CinemaWin.GUI
                 context.Shows.Add(show);
             }
             context.SaveChanges();
+        }
+
+        private void cboSlot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboSlot_DropDown(object sender, EventArgs e)
+        {
+            if (showId == 0)
+            {
+                int rId = Convert.ToInt32(cboRoomId.SelectedValue.ToString().Trim());
+                DateTime date = dtpShowDate.Value;
+                bool[] slots = new bool[9];
+                List<Show> shows = context.Shows.
+                    Where(s => s.RoomId == rId
+                    && s.ShowDate == date).ToList<Show>();
+                foreach (Show s in shows)
+                {
+                    slots[(int)s.Slot - 1] = true;
+                }
+                List<int> ls = new List<int>();
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (slots[i] == false) ls.Add(i + 1);
+                }
+                cboSlot.DataSource = ls;
+            }
         }
     }
 }

@@ -60,11 +60,17 @@ namespace CinemaWin.GUI
                 UseColumnTextForButtonValue = true
             };
             dataGridView1.Columns.Insert(count, btnDelete);
-            dataGridView1.Columns.Insert(count, btnEdit);    
+            dataGridView1.Columns.Insert(count, btnEdit);
+            if (Settings.UserName == "" || Settings.UserName == null)
+            {
+                dataGridView1.Columns.RemoveAt(count);
+                dataGridView1.Columns.RemoveAt(count);
+                btnAdd.Enabled = false;
+            }
             dataGridView1.Columns["showid"].Visible = false;
             dataGridView1.Columns["status"].Visible = false;
             //dataGridView1.Columns["Film"].Visible = false;
-           // dataGridView1.Columns["Room"].Visible = false;
+            // dataGridView1.Columns["Room"].Visible = false;
             //dataGridView1.Columns["Bookings"].Visible = false;
         }
         public void bindGrid3()
