@@ -35,6 +35,7 @@ namespace CinemaWin.GUI
             this.lblAmount = new System.Windows.Forms.Label();
             this.pnlBookingDetail = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
+            this.txtBookingId = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtName
@@ -85,18 +86,30 @@ namespace CinemaWin.GUI
             this.btnBack.TabIndex = 5;
             this.btnBack.Text = "Back";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // txtBookingId
+            // 
+            this.txtBookingId.Location = new System.Drawing.Point(611, 72);
+            this.txtBookingId.Name = "txtBookingId";
+            this.txtBookingId.Size = new System.Drawing.Size(125, 27);
+            this.txtBookingId.TabIndex = 6;
+            this.txtBookingId.Visible = false;
             // 
             // BookingDetailGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 526);
+            this.ControlBox = false;
+            this.Controls.Add(this.txtBookingId);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.pnlBookingDetail);
             this.Controls.Add(this.lblAmount);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtAmount);
             this.Controls.Add(this.txtName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "BookingDetailGUI";
             this.Text = "BookingDetailGUI";
             this.ResumeLayout(false);
@@ -112,5 +125,10 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.Label lblAmount;
         private System.Windows.Forms.Panel pnlBookingDetail;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.TextBox txt;
+        private System.Windows.Forms.TextBox txtShowId;
+        private System.Windows.Forms.TextBox textShowID;
+        private System.Windows.Forms.TextBox textShowId;
+        private System.Windows.Forms.TextBox txtBookingId;
     }
 }

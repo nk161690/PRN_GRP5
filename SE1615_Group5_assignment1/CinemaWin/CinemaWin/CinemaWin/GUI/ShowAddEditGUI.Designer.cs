@@ -93,6 +93,7 @@ namespace CinemaWin.GUI
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(121, 27);
             this.txtPrice.TabIndex = 4;
+            this.txtPrice.TextChanged += new System.EventHandler(this.txtPrice_TextChanged);
             // 
             // btnSave
             // 
@@ -165,7 +166,7 @@ namespace CinemaWin.GUI
             // txtShowId
             // 
             this.txtShowId.Location = new System.Drawing.Point(470, 41);
-            this.txtShowId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtShowId.Margin = new System.Windows.Forms.Padding(2);
             this.txtShowId.Name = "txtShowId";
             this.txtShowId.Size = new System.Drawing.Size(121, 27);
             this.txtShowId.TabIndex = 12;

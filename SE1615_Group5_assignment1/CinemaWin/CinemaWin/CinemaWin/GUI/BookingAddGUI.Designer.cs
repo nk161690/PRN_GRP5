@@ -41,48 +41,56 @@ namespace CinemaWin.GUI
             // 
             // pnlBook
             // 
-            this.pnlBook.Location = new System.Drawing.Point(213, 40);
+            this.pnlBook.Location = new System.Drawing.Point(170, 32);
+            this.pnlBook.Margin = new System.Windows.Forms.Padding(2);
             this.pnlBook.Name = "pnlBook";
-            this.pnlBook.Size = new System.Drawing.Size(300, 300);
+            this.pnlBook.Size = new System.Drawing.Size(240, 240);
             this.pnlBook.TabIndex = 0;
+            this.pnlBook.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlBook_Paint);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(66, 387);
+            this.label1.Location = new System.Drawing.Point(53, 310);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 25);
+            this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Name:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(48, 434);
+            this.label2.Location = new System.Drawing.Point(38, 347);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 25);
+            this.label2.Size = new System.Drawing.Size(65, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Amount:";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(135, 384);
+            this.txtName.Location = new System.Drawing.Point(108, 307);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(150, 31);
+            this.txtName.Size = new System.Drawing.Size(121, 27);
             this.txtName.TabIndex = 3;
             // 
             // txtAmount
             // 
-            this.txtAmount.Location = new System.Drawing.Point(135, 431);
+            this.txtAmount.Location = new System.Drawing.Point(108, 345);
+            this.txtAmount.Margin = new System.Windows.Forms.Padding(2);
             this.txtAmount.Name = "txtAmount";
-            this.txtAmount.Size = new System.Drawing.Size(150, 31);
+            this.txtAmount.Size = new System.Drawing.Size(121, 27);
             this.txtAmount.TabIndex = 4;
+            this.txtAmount.TextChanged += new System.EventHandler(this.txtAmount_TextChanged);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(213, 488);
+            this.btnSave.Location = new System.Drawing.Point(170, 390);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(112, 34);
+            this.btnSave.Size = new System.Drawing.Size(90, 27);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -90,9 +98,10 @@ namespace CinemaWin.GUI
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(410, 488);
+            this.btnCancel.Location = new System.Drawing.Point(328, 390);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 34);
+            this.btnCancel.Size = new System.Drawing.Size(90, 27);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -100,17 +109,18 @@ namespace CinemaWin.GUI
             // 
             // txtShowId
             // 
-            this.txtShowId.Location = new System.Drawing.Point(645, 79);
+            this.txtShowId.Location = new System.Drawing.Point(516, 63);
+            this.txtShowId.Margin = new System.Windows.Forms.Padding(2);
             this.txtShowId.Name = "txtShowId";
-            this.txtShowId.Size = new System.Drawing.Size(150, 31);
+            this.txtShowId.Size = new System.Drawing.Size(121, 27);
             this.txtShowId.TabIndex = 7;
             this.txtShowId.Visible = false;
             // 
             // BookingAddGUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 550);
+            this.ClientSize = new System.Drawing.Size(640, 459);
             this.ControlBox = false;
             this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.btnCancel);
@@ -121,9 +131,11 @@ namespace CinemaWin.GUI
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlBook);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BookingAddGUI";
             this.ShowInTaskbar = false;
             this.Text = "BookingAddGUI";
+            this.Load += new System.EventHandler(this.BookingAddGUI_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

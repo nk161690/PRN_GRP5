@@ -117,7 +117,7 @@ namespace CinemaWin.GUI
                     {
                         MessageBox.Show(ex.Message);
                     }
-                }               
+                }
             }
         }
 

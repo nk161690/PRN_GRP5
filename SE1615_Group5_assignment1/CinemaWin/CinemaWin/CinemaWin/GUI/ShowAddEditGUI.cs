@@ -38,7 +38,7 @@ namespace CinemaWin.GUI
             {
                 Show show = context.Shows.Find(id);
                 cboRoomId.SelectedValue = show.RoomId;
-                dtpShowDate.Value = show.ShowDate??DateTime.Now;
+                dtpShowDate.Value = show.ShowDate ?? DateTime.Now;
                 txtPrice.Text = show.Price.ToString();
                 cboFilmId.SelectedValue = show.FilmId;
                 bool[] slots = new bool[9];
@@ -102,11 +102,15 @@ namespace CinemaWin.GUI
             }
         }
 
+        private void txtPrice_TextChanged(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             //EDIT
-            if(add == 0)
+            if (add == 0)
             {
                 try
                 {
@@ -120,7 +124,8 @@ namespace CinemaWin.GUI
                     context.Shows.Update(show);
                     context.SaveChanges();
                     MessageBox.Show("That show is editted!");
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -128,16 +133,24 @@ namespace CinemaWin.GUI
             //ADD
             else
             {
-                Show show = new Show();
-                show.RoomId = (int)cboRoomId.SelectedValue;
-                show.ShowDate = dtpShowDate.Value;
-                show.Slot = int.Parse(cboSlot.Text);
-                show.FilmId = (int)cboFilmId.SelectedValue;
-                show.Price = Decimal.Parse(txtPrice.Text);
+                try
+                {
+                    Show show = new Show();
+                    show.RoomId = (int)cboRoomId.SelectedValue;
+                    show.ShowDate = dtpShowDate.Value;
+                    show.Slot = int.Parse(cboSlot.Text);
+                    show.FilmId = (int)cboFilmId.SelectedValue;
+                    show.Price = Decimal.Parse(txtPrice.Text);
+                    if (show.Price < 0) { MessageBox.Show("Price cannot < 0!"); return; }
+                    context.Shows.Add(show);
+                    context.SaveChanges();
+                    MessageBox.Show("A new show is added!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
-                context.Shows.Add(show);
-                context.SaveChanges();
-                MessageBox.Show("A new show is added!");
             }
         }
     }

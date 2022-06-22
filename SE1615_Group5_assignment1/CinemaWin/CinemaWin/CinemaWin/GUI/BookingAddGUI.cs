@@ -72,19 +72,44 @@ namespace CinemaWin.GUI
             this.DialogResult = DialogResult.Cancel;
         }
 
+        private void pnlBook_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void BookingAddGUI_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(new string(mySeats));
-            Booking book = new Booking();
-            book.ShowId = int.Parse(txtShowId.Text);
-            book.Name = txtName.Text.ToString();
-            book.SeatStatus = new string(mySeats);
-            book.Amount = decimal.Parse(txtAmount.Text);
+            try
+            {
+                //MessageBox.Show(new string(mySeats));
+                Booking book = new Booking();
+                book.ShowId = int.Parse(txtShowId.Text);
+                book.Name = txtName.Text.ToString();
+                book.SeatStatus = new string(mySeats);
+                book.Amount = decimal.Parse(txtAmount.Text);
+                if (book.Amount < 0) { MessageBox.Show("Amount must > 0!"); return; }
 
-            context.Bookings.Add(book);
-            context.SaveChanges();
-            MessageBox.Show("Your booking is saved!");
-            this.DialogResult = DialogResult.Cancel;         
+                context.Bookings.Add(book);
+                context.SaveChanges();
+                MessageBox.Show("Your booking is saved!");
+                this.DialogResult = DialogResult.Cancel;
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
