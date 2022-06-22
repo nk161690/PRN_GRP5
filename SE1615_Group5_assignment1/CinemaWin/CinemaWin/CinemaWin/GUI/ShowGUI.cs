@@ -70,9 +70,9 @@ namespace CinemaWin.GUI
             dataGridView1.Columns.Insert(count, btnBooking);
             if (Settings.UserName == "" || Settings.UserName == null)
             {
-                //dataGridView1.Columns.RemoveAt(count);
-                dataGridView1.Columns.RemoveAt(count+1);
-                dataGridView1.Columns.RemoveAt(count+1);
+                dataGridView1.Columns.RemoveAt(count);
+                dataGridView1.Columns.RemoveAt(count);
+                dataGridView1.Columns.RemoveAt(count);
                 btnAdd.Enabled = false;
             }
             dataGridView1.Columns["showid"].Visible = false;
@@ -84,30 +84,26 @@ namespace CinemaWin.GUI
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
-            {
-                int showId = (int) dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = context.Shows.Find(showId);
-                
-                ShowAddEditGUI edit = new ShowAddEditGUI(show);
-                DialogResult dr = edit.ShowDialog();
-            }
-            if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
-            {
-                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = context.Shows.Find(showId);
-
-                ShowAddEditGUI f = new ShowAddEditGUI(show);
-                DialogResult dr = f.ShowDialog();
-            }
             if (e.ColumnIndex == dataGridView1.Columns["Booking"].Index)
             {
                 int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
                 Show show = context.Shows.Find(showId);
 
-                ShowAddEditGUI f = new ShowAddEditGUI(show);
-                DialogResult dr = f.ShowDialog();
+                //ShowAddEditGUI f = new ShowAddEditGUI(show);
+                //DialogResult dr = f.ShowDialog();
             }
+            if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
+            {
+                int showId = (int) dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                Show show = context.Shows.Find(showId);
+                
+                ShowAddEditGUI edit = new ShowAddEditGUI(0, showId, context);
+                DialogResult dr = edit.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    bindGrid(true);
+                }
+            }                      
             if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
             {
                 int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
@@ -115,12 +111,18 @@ namespace CinemaWin.GUI
 
                 if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    context.Shows.Remove(show);
-                    context.SaveChanges();
-                    MessageBox.Show("Deleted!");
+                    try
+                    {
+                        context.Shows.Remove(show);
+                        context.SaveChanges();
+                        bindGrid(true);
+                        MessageBox.Show("Deleted!");
+                    } catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }               
             }
-            bindGrid(false);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -130,8 +132,8 @@ namespace CinemaWin.GUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Show show = null;
-            ShowAddEditGUI add = new ShowAddEditGUI(show);
+            int roomId = (int)cboRoomId.SelectedValue;
+            ShowAddEditGUI add = new ShowAddEditGUI(1, roomId, context);
             DialogResult dr = add.ShowDialog();
             bindGrid(false);
         }

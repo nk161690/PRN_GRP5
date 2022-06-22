@@ -76,8 +76,6 @@ namespace CinemaWin.GUI
             this.cboSlot.Name = "cboSlot";
             this.cboSlot.Size = new System.Drawing.Size(146, 28);
             this.cboSlot.TabIndex = 2;
-            this.cboSlot.DropDown += new System.EventHandler(this.cboSlot_DropDown);
-            this.cboSlot.SelectedIndexChanged += new System.EventHandler(this.cboSlot_SelectedIndexChanged);
             // 
             // cboFilmId
             // 
