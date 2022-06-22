@@ -57,7 +57,6 @@ namespace CinemaWin.GUI
             this.dataGridView1.Size = new System.Drawing.Size(1119, 236);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             // 
             // btnAdd
@@ -80,7 +79,6 @@ namespace CinemaWin.GUI
             this.label1.Size = new System.Drawing.Size(49, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Film:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -91,7 +89,6 @@ namespace CinemaWin.GUI
             this.label2.Size = new System.Drawing.Size(53, 25);
             this.label2.TabIndex = 3;
             this.label2.Text = "Date:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -102,7 +99,6 @@ namespace CinemaWin.GUI
             this.label3.Size = new System.Drawing.Size(82, 25);
             this.label3.TabIndex = 4;
             this.label3.Text = "RoomID:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btnSearch
             // 
@@ -124,7 +120,6 @@ namespace CinemaWin.GUI
             this.dtpShowDate.Name = "dtpShowDate";
             this.dtpShowDate.Size = new System.Drawing.Size(182, 31);
             this.dtpShowDate.TabIndex = 6;
-            this.dtpShowDate.ValueChanged += new System.EventHandler(this.ComboxShowDate_ValueChanged);
             // 
             // cboFilmId
             // 
@@ -135,7 +130,6 @@ namespace CinemaWin.GUI
             this.cboFilmId.Name = "cboFilmId";
             this.cboFilmId.Size = new System.Drawing.Size(182, 33);
             this.cboFilmId.TabIndex = 7;
-            this.cboFilmId.SelectedIndexChanged += new System.EventHandler(this.cboFilm_SelectedIndexChanged);
             // 
             // cboRoomId
             // 
@@ -145,7 +139,6 @@ namespace CinemaWin.GUI
             this.cboRoomId.Name = "cboRoomId";
             this.cboRoomId.Size = new System.Drawing.Size(182, 33);
             this.cboRoomId.TabIndex = 8;
-            this.cboRoomId.SelectedIndexChanged += new System.EventHandler(this.comboBoxRoom_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -184,7 +177,6 @@ namespace CinemaWin.GUI
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ShowGUI";
             this.Text = "ShowGUI";
-            this.Load += new System.EventHandler(this.ShowGUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

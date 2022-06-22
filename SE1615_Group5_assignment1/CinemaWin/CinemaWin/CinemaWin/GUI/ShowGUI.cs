@@ -73,13 +73,6 @@ namespace CinemaWin.GUI
             // dataGridView1.Columns["Room"].Visible = false;
             //dataGridView1.Columns["Bookings"].Visible = false;
         }
-        public void bindGrid3()
-        {
-            dataGridView1.DataSource = context.Shows.ToList<Show>();
-        }
-        void bindGrid2(int filmid, string showdate, int roomid)
-        {            
-        }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -88,8 +81,8 @@ namespace CinemaWin.GUI
                 int showId = (int) dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
                 Show show = context.Shows.Find(showId);
                 
-                ShowAddEditGUI f = new ShowAddEditGUI(show);
-                DialogResult dr = f.ShowDialog(); 
+                ShowAddEditGUI edit = new ShowAddEditGUI(show);
+                DialogResult dr = edit.ShowDialog();
             }
             if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
             {
@@ -100,27 +93,10 @@ namespace CinemaWin.GUI
                 {
                     context.Shows.Remove(show);
                     context.SaveChanges();
-                    MessageBox.Show("Deleted");
-                }
-
-                bindGrid3();
-
+                    MessageBox.Show("Deleted!");
+                }               
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-        
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
+            bindGrid(false);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -130,42 +106,10 @@ namespace CinemaWin.GUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
-            Show show2 = null;
-
-            ShowAddEditGUI add = new ShowAddEditGUI(show2);
+            Show show = null;
+            ShowAddEditGUI add = new ShowAddEditGUI(show);
             DialogResult dr = add.ShowDialog();
-            bindGrid3();
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
-        private void ShowGUI_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cboFilm_SelectedIndexChanged(object sender, EventArgs e)
-        {
-          
-        }
-
-        private void ComboxShowDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxRoom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
+            bindGrid(false);
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

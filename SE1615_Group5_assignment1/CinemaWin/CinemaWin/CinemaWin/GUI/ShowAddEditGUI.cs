@@ -17,6 +17,7 @@ namespace CinemaWin.GUI
     {
         int showId;
         CinemaContext context;
+        ShowGUI s = new ShowGUI();
         public ShowAddEditGUI(Show show)
         {
             InitializeComponent();
@@ -118,13 +119,14 @@ namespace CinemaWin.GUI
             if (showId != 0)
             {
                 show.ShowId = showId;
-                context.Shows.Update(show);
+                context.Shows.Update(show);                
             }
             else
             {
                 context.Shows.Add(show);
             }
             context.SaveChanges();
+            MessageBox.Show("All changes saved!");
         }
 
         private void cboSlot_SelectedIndexChanged(object sender, EventArgs e)
