@@ -35,6 +35,7 @@ namespace CinemaWin.GUI
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.pnlBook = new System.Windows.Forms.Panel();
+            this.txtShowId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +49,6 @@ namespace CinemaWin.GUI
             this.dataGridView1.Size = new System.Drawing.Size(1194, 285);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
-            this.dataGridView1.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // label1
             // 
@@ -76,6 +76,7 @@ namespace CinemaWin.GUI
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Create a new booking...";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnBack
             // 
@@ -94,12 +95,22 @@ namespace CinemaWin.GUI
             this.pnlBook.Size = new System.Drawing.Size(300, 300);
             this.pnlBook.TabIndex = 5;
             // 
+            // txtShowId
+            // 
+            this.txtShowId.Enabled = false;
+            this.txtShowId.Location = new System.Drawing.Point(879, 96);
+            this.txtShowId.Name = "txtShowId";
+            this.txtShowId.Size = new System.Drawing.Size(150, 31);
+            this.txtShowId.TabIndex = 6;
+            this.txtShowId.Visible = false;
+            // 
             // BookingGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 678);
             this.ControlBox = false;
+            this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.pnlBook);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAdd);
@@ -125,5 +136,6 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Panel pnlBook;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.TextBox txtShowId;
     }
 }

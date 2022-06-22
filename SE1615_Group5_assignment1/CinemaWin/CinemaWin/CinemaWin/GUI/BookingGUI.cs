@@ -18,6 +18,7 @@ namespace CinemaWin.GUI
         {
             InitializeComponent();
             this.context = context;
+            txtShowId.Text = show.ShowId.ToString();
             Room room = context.Rooms.Where(r => r.RoomId == show.RoomId).FirstOrDefault();
             int nRows = (int)room.NumberRows;
             int nCols = (int)room.NumberCols;
@@ -82,11 +83,6 @@ namespace CinemaWin.GUI
             //mySeats[int.Parse(chk.Name)] = chk.Checked ? '1' : '0';
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             lblNo.Text = dataGridView1.Rows.Count.ToString();
@@ -95,6 +91,13 @@ namespace CinemaWin.GUI
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            int showId = int.Parse(txtShowId.Text);
+            BookingAddGUI add = new BookingAddGUI(context, showId);
+            DialogResult dr = add.ShowDialog();
         }
     }
 }
