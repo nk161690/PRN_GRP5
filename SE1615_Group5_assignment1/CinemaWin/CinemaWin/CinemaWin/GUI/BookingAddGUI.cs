@@ -74,10 +74,11 @@ namespace CinemaWin.GUI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show(new string(mySeats));
             Booking book = new Booking();
-            book.ShowId =int.Parse(txtShowId.Text);
+            book.ShowId = int.Parse(txtShowId.Text);
             book.Name = txtName.Text.ToString();
-            book.SeatStatus = mySeats.ToString();
+            book.SeatStatus = new string(mySeats);
             book.Amount = decimal.Parse(txtAmount.Text);
 
             context.Bookings.Add(book);
