@@ -77,9 +77,6 @@ namespace CinemaWin.GUI
             }
             dataGridView1.Columns["showid"].Visible = false;
             dataGridView1.Columns["status"].Visible = false;
-            //dataGridView1.Columns["Film"].Visible = false;
-            // dataGridView1.Columns["Room"].Visible = false;
-            //dataGridView1.Columns["Bookings"].Visible = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -88,9 +85,8 @@ namespace CinemaWin.GUI
             {
                 int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
                 Show show = context.Shows.Find(showId);
-
-                //ShowAddEditGUI f = new ShowAddEditGUI(show);
-                //DialogResult dr = f.ShowDialog();
+                BookingGUI book = new BookingGUI(show, context);
+                DialogResult dr = book.ShowDialog();
             }
             if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
             {

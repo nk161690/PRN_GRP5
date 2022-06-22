@@ -33,7 +33,7 @@ namespace CinemaWin.GUI
             this.label1 = new System.Windows.Forms.Label();
             this.lblNo = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             this.pnlBook = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -77,14 +77,15 @@ namespace CinemaWin.GUI
             this.btnAdd.Text = "Create a new booking...";
             this.btnAdd.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
+            // btnBack
             // 
-            this.btnCancel.Location = new System.Drawing.Point(1108, 316);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 34);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Back";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnBack.Location = new System.Drawing.Point(1108, 316);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(112, 34);
+            this.btnBack.TabIndex = 4;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // pnlBook
             // 
@@ -98,13 +99,16 @@ namespace CinemaWin.GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 678);
+            this.ControlBox = false;
             this.Controls.Add(this.pnlBook);
-            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lblNo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "BookingGUI";
+            this.ShowInTaskbar = false;
             this.Text = "BookingAddGUI";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -120,5 +124,6 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Panel pnlBook;
+        private System.Windows.Forms.Button btnBack;
     }
 }
