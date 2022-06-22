@@ -36,6 +36,7 @@ namespace CinemaWin.GUI
             this.txtAmount = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.txtShowId = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // pnlBook
@@ -97,12 +98,21 @@ namespace CinemaWin.GUI
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // txtShowId
+            // 
+            this.txtShowId.Location = new System.Drawing.Point(645, 79);
+            this.txtShowId.Name = "txtShowId";
+            this.txtShowId.Size = new System.Drawing.Size(150, 31);
+            this.txtShowId.TabIndex = 7;
+            this.txtShowId.Visible = false;
+            // 
             // BookingAddGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 550);
             this.ControlBox = false;
+            this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtAmount);
@@ -128,5 +138,6 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.TextBox txtAmount;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtShowId;
     }
 }

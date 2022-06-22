@@ -43,12 +43,10 @@ namespace CinemaWin.GUI
                     CheckBox chk = new CheckBox();
                     chk.Size = new Size(width - 5, height - 5);
                     int index = i * nCols + j;
-                    //chk.Checked = (seats[index] == '1') ? true : false;
-                    //if (chk.Checked) chk.Enabled = false;
-                    //else chk.Enabled = true;
+                    chk.Checked = (seats[index] == '1') ? true : false;
+                    chk.Enabled = false;
                     chk.Location = new Point((j + 1) * width, (i + 1) * height);
                     chk.Name = index.ToString();
-                    //chk.CheckedChanged += Chk_CheckChanged;
                     pnlBook.Controls.Add(chk);
                 }
 
@@ -72,15 +70,6 @@ namespace CinemaWin.GUI
             };
             dataGridView1.Columns.Insert(count, btnDelete);
             dataGridView1.Columns.Insert(count, btnDetail);
-        }
-
-        private void Chk_CheckChanged(object sender, EventArgs e)
-        {
-            //CheckBox chk = (CheckBox)sender;
-            //if (chk.Checked) amount += price;
-            //else amount -= price;
-            //txtAmount.Text = amount.toString();
-            //mySeats[int.Parse(chk.Name)] = chk.Checked ? '1' : '0';
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
