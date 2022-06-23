@@ -50,7 +50,16 @@ namespace CinemaWin.GUI
                     chk.Name = index.ToString();
                     pnlBook.Controls.Add(chk);
                 }
+            bindGridbooking(true,show);
 
+
+
+        }
+
+
+
+        public void bindGridbooking(bool filter, Show show)
+        {
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = context.Bookings
                 .Where(b => b.ShowId == show.ShowId)
@@ -72,8 +81,29 @@ namespace CinemaWin.GUI
             dataGridView1.Columns.Insert(count, btnDelete);
             dataGridView1.Columns.Insert(count, btnDetail);
         }
-
-        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        public void bindGridbooking2(bool filter, int showid)
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.DataSource = context.Bookings
+                .Where(b => b.ShowId == showid)
+                .ToList<Booking>();
+            int count = dataGridView1.Columns.Count;
+            DataGridViewButtonColumn btnDetail = new DataGridViewButtonColumn
+            {
+                Name = "Detail",
+                Text = "Detail",
+                UseColumnTextForButtonValue = true
+            };
+            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn
+            {
+                Name = "Delete",
+                Text = "Delete",
+                UseColumnTextForButtonValue = true
+            };
+            dataGridView1.Columns.Insert(count, btnDelete);
+            dataGridView1.Columns.Insert(count, btnDetail);
+        }
+            private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             lblNo.Text = dataGridView1.Rows.Count.ToString();
         }
@@ -88,6 +118,9 @@ namespace CinemaWin.GUI
             int showId = int.Parse(txtShowId.Text);
             BookingAddGUI add = new BookingAddGUI(context, showId);
             DialogResult dr = add.ShowDialog();
+            bindGridbooking2(true, showId);
+
+
 
         }
 
@@ -165,6 +198,7 @@ namespace CinemaWin.GUI
                         context.Bookings.Remove(book);
                         context.SaveChanges();
                         MessageBox.Show("Delete successfully!");
+                        bindGridbooking2(true, showId);
                     }
                     catch (Exception ex)
                     {
@@ -181,3 +215,4 @@ namespace CinemaWin.GUI
         }
     }
 }
+
