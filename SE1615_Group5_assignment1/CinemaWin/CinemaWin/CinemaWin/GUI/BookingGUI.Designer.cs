@@ -36,6 +36,7 @@ namespace CinemaWin.GUI
             this.btnBack = new System.Windows.Forms.Button();
             this.pnlBook = new System.Windows.Forms.Panel();
             this.txtShowId = new System.Windows.Forms.TextBox();
+            this.txtRoomId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,12 +113,21 @@ namespace CinemaWin.GUI
             this.txtShowId.TabIndex = 6;
             this.txtShowId.Visible = false;
             // 
+            // txtRoomId
+            // 
+            this.txtRoomId.Location = new System.Drawing.Point(703, 125);
+            this.txtRoomId.Name = "txtRoomId";
+            this.txtRoomId.Size = new System.Drawing.Size(121, 27);
+            this.txtRoomId.TabIndex = 7;
+            this.txtRoomId.Visible = false;
+            // 
             // BookingGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 542);
             this.ControlBox = false;
+            this.Controls.Add(this.txtRoomId);
             this.Controls.Add(this.txtShowId);
             this.Controls.Add(this.pnlBook);
             this.Controls.Add(this.btnBack);
@@ -146,5 +156,6 @@ namespace CinemaWin.GUI
         private System.Windows.Forms.Panel pnlBook;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.TextBox txtShowId;
+        private System.Windows.Forms.TextBox txtRoomId;
     }
 }
