@@ -107,16 +107,8 @@ namespace Group5.GUI
                 Text = "Delete",
                 UseColumnTextForButtonValue = true
             };
-            if (Settings.UserName == "" || Settings.UserName == null)
-            {
-                btnAdd.Enabled = false;
-                dataGridView1.Columns.Insert(count, btnDetail);
-            }
-            else
-            {
-                dataGridView1.Columns.Insert(count, btnDelete);
-                dataGridView1.Columns.Insert(count, btnDetail);
-            }
+            dataGridView1.Columns.Insert(count, btnDelete);
+            dataGridView1.Columns.Insert(count, btnDetail);
             dataGridView1.Columns["showid"].Visible = false;
             dataGridView1.Columns["bookingid"].Visible = false;
         }
