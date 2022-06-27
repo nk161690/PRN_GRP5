@@ -21,7 +21,7 @@ namespace Group5.GUI
         {
             InitializeComponent();
             context = new CinemaContext();
-            
+
             cboFilmId.DataSource = context.Films.ToList<Film>();
             cboFilmId.DisplayMember = "Title";
             cboFilmId.ValueMember = "FilmID";
@@ -34,9 +34,9 @@ namespace Group5.GUI
 
             bindGrid(false);
         }
-        
 
-      public void bindGrid(bool filter)
+
+        public void bindGrid(bool filter)
         {
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = context.Shows
@@ -70,9 +70,8 @@ namespace Group5.GUI
             dataGridView1.Columns.Insert(count, btnBooking);
             if (Settings.UserName == "" || Settings.UserName == null)
             {
-                dataGridView1.Columns.RemoveAt(count);
-                dataGridView1.Columns.RemoveAt(count);
-                dataGridView1.Columns.RemoveAt(count);
+                dataGridView1.Columns.RemoveAt(count+1);
+                dataGridView1.Columns.RemoveAt(count+1);
                 btnAdd.Enabled = false;
             }
             dataGridView1.Columns["showid"].Visible = false;
@@ -88,34 +87,42 @@ namespace Group5.GUI
                 BookingGUI book = new BookingGUI(show, context);
                 DialogResult dr = book.ShowDialog();
             }
-            if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
+            if (dataGridView1.Columns["Edit"] == null)
             {
-                int showId = (int) dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = context.Shows.Find(showId);
-                
-                ShowAddEditGUI edit = new ShowAddEditGUI(0, showId, context);
-                DialogResult dr = edit.ShowDialog();
-                if (dr == DialogResult.OK)
+                bindGrid(false);
+            }
+            else
+            {
+                if (e.ColumnIndex == dataGridView1.Columns["Edit"].Index)
                 {
-                    bindGrid(true);
-                }
-            }                      
-            if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
-            {
-                int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
-                Show show = context.Shows.Find(showId);
+                    int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                    Show show = context.Shows.Find(showId);
 
-                if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    try
+                    ShowAddEditGUI edit = new ShowAddEditGUI(0, showId, context);
+                    DialogResult dr = edit.ShowDialog();
+                    if (dr == DialogResult.OK)
                     {
-                        context.Shows.Remove(show);
-                        context.SaveChanges();
                         bindGrid(true);
-                        MessageBox.Show("Deleted!");
-                    } catch(Exception ex)
+                    }
+                }
+                if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
+                {
+                    int showId = (int)dataGridView1.Rows[e.RowIndex].Cells["showId"].Value;
+                    Show show = context.Shows.Find(showId);
+
+                    if (MessageBox.Show("Do you want to delete?", "delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        MessageBox.Show(ex.Message);
+                        try
+                        {
+                            context.Shows.Remove(show);
+                            context.SaveChanges();
+                            bindGrid(true);
+                            MessageBox.Show("Deleted!");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                 }
             }
