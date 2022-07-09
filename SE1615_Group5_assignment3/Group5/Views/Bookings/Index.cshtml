@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <h4>Seat status:</h4>
-<div class="col-md-4 col-sm-12">
+<div class="col-md-4">
     @{
         int nRows = (int)ViewBag.room.NumberRows;
         int nCols = (int)ViewBag.room.NumberCols;
@@ -24,7 +24,7 @@
             for (int j = 0; j < nCols; j++)
             {
                 int index = i * nCols + j;
-                <input type="checkbox" name="@index" disabled/>
+                <input type="checkbox" name="@index" value="@(seats[index] == '1') ? true : false" disabled/>
                 if (j == nCols - 1)
                 {
                     <br />
@@ -35,7 +35,7 @@
     }
 </div>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id=@ViewBag.show.ShowId>Create New</a>
 </p>
 <table class="table">
     <thead>

@@ -26,6 +26,7 @@ namespace Group5.Controllers
                 .Include(s => s.Room);
             var show = await _context.Shows
                 .FirstOrDefaultAsync(s => s.ShowId == id);
+            ViewData["show"] = show;
             ViewData["bookings"] = await _context.Bookings
                 .Where(b => b.ShowId == show.ShowId).
                 ToListAsync();
@@ -53,8 +54,19 @@ namespace Group5.Controllers
         }
 
         // GET: Bookings/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
+            var cinemaContext = _context.Shows
+                .Include(s => s.Film)
+                .Include(s => s.Room);
+            var show = await _context.Shows
+                .FirstOrDefaultAsync(s => s.ShowId == id);
+            ViewData["show"] = show;
+            ViewData["bookings"] = await _context.Bookings
+                .Where(b => b.ShowId == show.ShowId).
+                ToListAsync();
+            ViewData["room"] = await _context.Rooms
+                .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
             return View();
         }
 

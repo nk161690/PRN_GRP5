@@ -8,31 +8,64 @@
 
 <h4>Booking</h4>
 <hr />
+<div class="col-md-4">
+    @{
+        char[] mySeats = new char[1000];
+        int nRows = (int)ViewBag.room.NumberRows;
+        int nCols = (int)ViewBag.room.NumberCols;
+        string seatStatus = new string('0', nRows * nCols);
+        char[] seats = seatStatus.ToCharArray();
+        foreach (Booking b in ViewBag.bookings)
+        {
+            for (int i = 0; i < b.SeatStatus.Length; i++)
+                if (b.SeatStatus[i] == '1') seats[i] = '1';
+        }
+
+        for (int i = 0; i < nRows; i++)
+        {
+            for (int j = 0; j < nCols; j++)
+            {
+                int index = i * nCols + j;
+                <input type="checkbox" name="@index" value="@(seats[index] == '1') ? true : false" onchange="setPrice(this)" />
+                if (j == nCols - 1)
+                {
+                    <br />
+                }
+            }
+
+        }
+    }
+</div>
+<script type="text/javascript">
+    let amount = 0.0;
+    let price = @ViewBag.show.Price;
+    function setPrice(checkbox) {
+        if (checkbox.checked) {
+            amount += price;
+        } else {
+            amount -= price;
+        }
+        $('#amount').val(amount);
+    }
+</script>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ShowId" class="control-label"></label>
-                <select asp-for="ShowId" class ="form-control" asp-items="ViewBag.ShowId"></select>
-            </div>
+            <input type="hidden" asp-for="ShowId" />
+            <input type="hidden" asp-for="SeatStatus" value="@mySeats" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SeatStatus" class="control-label"></label>
-                <input asp-for="SeatStatus" class="form-control" />
-                <span asp-validation-for="SeatStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
+                <input asp-for="Amount" class="form-control" id="amount" readonly />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -43,5 +76,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
