@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Group5.Models.Booking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h4>Seat status:</h4>
+<div class="col-md-4 col-sm-12">
+    @{
+        int nRows = (int)ViewBag.room.NumberRows;
+        int nCols = (int)ViewBag.room.NumberCols;
+        string seatStatus = new string('0', nRows * nCols);
+        char[] seats = seatStatus.ToCharArray();
+        foreach (Booking b in ViewBag.bookings)
+        {
+            for (int i = 0; i < b.SeatStatus.Length; i++)
+                if (b.SeatStatus[i] == '1') seats[i] = '1';
+        }
+
+        for (int i = 0; i < nRows; i++)
+        {
+            for (int j = 0; j < nCols; j++)
+            {
+                int index = i * nCols + j;
+                <input type="checkbox" name="@index" disabled/>
+                if (j == nCols - 1)
+                {
+                    <br />
+                }
+            }
+
+        }
+    }
+</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Booking item in ViewBag.bookings)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BookingId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.BookingId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BookingId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

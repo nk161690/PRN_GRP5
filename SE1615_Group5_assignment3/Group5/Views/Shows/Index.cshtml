@@ -24,14 +24,17 @@
         <input type="submit" value="Search" class="btn btn-primary" />
     </div>
 </form>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 @{
     List<Show> ls = ViewBag.shows;
     int count = ls.Count;
     string user = HttpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
 }
+<p>
+    @if (user == "admin")
+    {
+        <a asp-action="Create">Create New</a>
+    }
+</p>
 <h4>The number of shows: @count</h4>
 <table class="table">
     <thead>
@@ -74,14 +77,11 @@
                     @Html.DisplayFor(modelItem => item.Room.Name)
                 </td>
                 <td>
-                    @if (user != "")
+                    <a asp-controller="Bookings" asp-action="Index" asp-route-id="@item.ShowId">Bookings</a>
+                    @if (user == "admin")
                     {
-                        <a asp-action="Bookings" asp-route-id="@item.ShowId">Bookings</a>
                         <a asp-action="Edit" asp-route-id="@item.ShowId">Edit</a>
-                    }
-                    <a asp-action="Details" asp-route-id="@item.ShowId">Details</a>
-                     @if (user != "")
-                    {
+                        <a asp-action="Details" asp-route-id="@item.ShowId">Details</a>
                         <a asp-action="Delete" asp-route-id="@item.ShowId">Delete</a>
                     }
                 </td>

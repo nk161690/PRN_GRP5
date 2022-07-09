@@ -70,6 +70,8 @@ namespace Group5.Controllers
         // GET: Shows/Create
         public IActionResult Create()
         {
+            ViewData["ShowDate"] = DateTime.Now;
+            ViewData["FilmId"] = new SelectList(_context.Films, "FilmId", "Title");
             return View();
         }
 
