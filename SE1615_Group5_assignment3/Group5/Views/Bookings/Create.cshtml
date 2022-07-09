@@ -40,20 +40,28 @@
     let amount = 0.0;
     let price = @ViewBag.show.Price;
     function setPrice(checkbox) {
+        types = [];
         if (checkbox.checked) {
             amount += price;
+            $("input[type='checkbox']").each(function() {
+                if (this.checked) {types.push('1')} else {types.push('0')}       
+            });
         } else {
             amount -= price;
+            $("input[type='checkbox']").each(function() {
+                if (this.checked) {types.push('1')} else {types.push('0')}       
+            });
         }
         $('#amount').val(amount);
+        $('#seat_status').val(types);
     }
 </script>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ShowId" />
-            <input type="hidden" asp-for="SeatStatus" value="@mySeats" />
+            <input type="hidden" asp-for="ShowId" value="@ViewBag.show.ShowId" />
+            <input type="hidden" asp-for="SeatStatus" id="seat_status" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

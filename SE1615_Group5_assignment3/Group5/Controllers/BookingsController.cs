@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Group5.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Group5.Controllers
 {
@@ -75,15 +76,15 @@ namespace Group5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,ShowId,Name,SeatStatus,Amount")] Booking booking)
+        public async Task<IActionResult> Create([Bind("ShowId,Name,SeatStatus,Amount")] Booking booking)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
             }
-            return View(booking);
+            return Redirect("/Bookings/Index/55");
         }
 
         // GET: Bookings/Edit/5
