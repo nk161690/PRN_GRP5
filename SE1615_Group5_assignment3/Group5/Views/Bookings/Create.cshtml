@@ -10,7 +10,6 @@
 <hr />
 <div class="col-md-4">
     @{
-        char[] mySeats = new char[1000];
         int nRows = (int)ViewBag.room.NumberRows;
         int nCols = (int)ViewBag.room.NumberCols;
         string seatStatus = new string('0', nRows * nCols);
@@ -26,10 +25,17 @@
             for (int j = 0; j < nCols; j++)
             {
                 int index = i * nCols + j;
-                <input type="checkbox" name="@index" value="@(seats[index] == '1') ? true : false" onchange="setPrice(this)" />
+                if (seats[index] == '1')
+                {
+                            <input type="checkbox" name="@index" checked disabled />
+                }
+                else
+                {
+                            <input type="checkbox" name="@index" onchange="setPrice(this)" />
+                }
                 if (j == nCols - 1)
                 {
-                    <br />
+                            <br />
                 }
             }
 
@@ -39,21 +45,20 @@
 <script type="text/javascript">
     let amount = 0.0;
     let price = @ViewBag.show.Price;
+    let types = [];
+    for (let i = 0; i < @(nRows * nCols); i++) {
+        types.push('0');
+    }
     function setPrice(checkbox) {
-        types = [];
         if (checkbox.checked) {
             amount += price;
-            $("input[type='checkbox']").each(function() {
-                if (this.checked) {types.push('1')} else {types.push('0')}       
-            });
+            types[checkbox.name] = '1';
         } else {
-            amount -= price;
-            $("input[type='checkbox']").each(function() {
-                if (this.checked) {types.push('1')} else {types.push('0')}       
-            });
+            amount -= price;  
+            types[checkbox.name] = '0';
         }
         $('#amount').val(amount);
-        $('#seat_status').val(types);
+        $('#seat_status').val(types.join(''));
     }
 </script>
 <div class="row">

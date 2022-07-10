@@ -46,11 +46,16 @@ namespace Group5.Controllers
 
             var booking = await _context.Bookings
                 .FirstOrDefaultAsync(m => m.BookingId == id);
+            var show = await _context.Shows
+                .FirstOrDefaultAsync(s => s.ShowId == booking.ShowId);
+            ViewData["show"] = show;
             if (booking == null)
             {
                 return NotFound();
             }
-
+            ViewData["bookings"] = booking;
+            ViewData["room"] = await _context.Rooms
+                .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
             return View(booking);
         }
 
