@@ -22,7 +22,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" type="number"  />
+                <input asp-for="Price" class="form-control" type="number" id="price" onchange="checkPrice()" required pattern="[0-9]{1, 999999}"/>
+                <span id="alert"></span>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,7 +32,7 @@
                 <span asp-validation-for="Slot" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" id="create"/>
             </div>
         </form>
     </div>
@@ -40,6 +41,23 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+<script type="text/javascript">
+    function checkPrice() {
+        var price = document.getElementById('price').value;
+        if (price < 0) {
+            document.getElementById('alert').innerHTML = "price must be from 0 to 999,999";
+            document.getElementById('alert').style.color = 'red';
+            document.getElementById('create').disabled = true;
+            document.getElementById('create').style.opacity = (0.4);
+        } else {
+            document.getElementById('alert').innerHTML = "";
+            document.getElementById('create').disabled = false;
+            document.getElementById('create').style.opacity = (1);
+        }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

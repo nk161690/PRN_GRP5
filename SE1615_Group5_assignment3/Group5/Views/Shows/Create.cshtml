@@ -12,29 +12,68 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RoomId" />
-            <input type="hidden" asp-for="ShowDate" value="@ViewBag.ShowDate" />
+            @*<input type="text" asp-for="RoomId" value="@ViewBag.RoomId"/>*@
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label"></label>
+                <select asp-for="RoomId" asp-items="@ViewBag.RoomId" class="form-control"></select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowDate" class="control-label"></label>
+                <br>
+                <input type="date" asp-for="ShowDate" value="" required/>
+                <span asp-validation-for="ShowDate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="FilmId" class="control-label"></label>
-                <select asp-for="FilmId" asp-items="ViewBag.FilmId" class="form-control"></select>
+                <select asp-for="FilmId" asp-items="@ViewBag.FilmId" class="form-control"></select>
                 <span asp-validation-for="FilmId" class="text-danger"></span>
-            </div>           
+            </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" type="number"/>
+                <input asp-for="Price" class="form-control" type="number" id="price" onchange="checkPrice()" required pattern="[0-9]{1, 999999}"/>
+                <span id="alert"></span>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Slot" class="control-label"></label>
-                <input asp-for="Slot" class="form-control" />
+                <select asp-for="Slot" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
                 <span asp-validation-for="Slot" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" id="create"/>
             </div>
         </form>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function checkPrice() {
+        var price = document.getElementById('price').value;
+        if (price < 0) {
+            document.getElementById('alert').innerHTML = "price must be from 0 to 999,999";
+            document.getElementById('alert').style.color = 'red';
+            document.getElementById('create').disabled = true;
+            document.getElementById('create').style.opacity = (0.4);
+        } else {
+            document.getElementById('alert').innerHTML = "";
+            document.getElementById('create').disabled = false;
+            document.getElementById('create').style.opacity = (1);
+        }
+    }
+</script>
+
 
 <div>
     <a asp-action="Index">Back to List</a>

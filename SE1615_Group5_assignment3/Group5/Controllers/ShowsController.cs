@@ -24,7 +24,9 @@ namespace Group5.Controllers
             var cinemaContext = _context.Shows
                 .Include(s => s.Film)
                 .Include(s => s.Room);
-            ViewData["shows"] = await cinemaContext.ToListAsync();
+            ViewData["shows"] = await cinemaContext
+                .OrderByDescending(s => s.ShowDate)
+                .ToListAsync();
             Show show = new Show();
             show.ShowDate = DateTime.Now;
             ViewData["RoomId"] = new SelectList(_context.Rooms, "RoomId", "Name");
@@ -42,6 +44,7 @@ namespace Group5.Controllers
                 .Where(s => s.ShowDate == show.ShowDate
                 && s.RoomId == show.RoomId
                 && s.FilmId == show.FilmId)
+                .OrderByDescending(s => s.ShowDate)
                 .ToListAsync();
             show.ShowDate = DateTime.Now;
             ViewData["RoomId"] = new SelectList(_context.Rooms, "RoomId", "Name", show.RoomId);
@@ -72,6 +75,7 @@ namespace Group5.Controllers
         {
             ViewData["ShowDate"] = DateTime.Now;
             ViewData["FilmId"] = new SelectList(_context.Films, "FilmId", "Title");
+            ViewData["RoomId"] = new SelectList(_context.Rooms, "RoomId", "Name");
             return View();
         }
 
