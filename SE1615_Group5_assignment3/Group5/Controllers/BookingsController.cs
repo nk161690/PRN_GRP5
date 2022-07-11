@@ -177,7 +177,7 @@ namespace Group5.Controllers
             var booking = await _context.Bookings.FindAsync(id);
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+         return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
         }
 
         private bool BookingExists(int id)
