@@ -93,7 +93,7 @@ namespace Group5.Controllers
         }
 
         // GET: Bookings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -101,10 +101,16 @@ namespace Group5.Controllers
             }
 
             var booking = await _context.Bookings.FindAsync(id);
+            var show = await _context.Shows
+               .FirstOrDefaultAsync(s => s.ShowId == booking.ShowId);
+            ViewData["show"] = show;
             if (booking == null)
             {
                 return NotFound();
             }
+            ViewData["bookings"] = booking;
+            ViewData["room"] = await _context.Rooms
+                .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
             return View(booking);
         }
 
@@ -124,8 +130,10 @@ namespace Group5.Controllers
             {
                 try
                 {
+                  
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
+                 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,9 +148,9 @@ namespace Group5.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(booking);
+            //return View(booking);
+            return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
         }
-
         // GET: Bookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
