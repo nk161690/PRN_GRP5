@@ -133,6 +133,7 @@ namespace Group5.Controllers
                   
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
+                     return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
                  
                 }
                 catch (DbUpdateConcurrencyException)
