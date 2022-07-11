@@ -1,10 +1,11 @@
-﻿@model Group5.Models.Booking
+@model Group5.Models.Booking
 
 @{
     ViewData["Title"] = "Edit";
 }
 
 <h1>Edit</h1>
+   
 
 <h4>Booking</h4>
 <hr />
@@ -12,25 +13,65 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="BookingId" />
+            <input type="hidden" asp-for="BookingId" value=" @ViewBag.bookings.BookingId" />
+            <input type="hidden" asp-for="ShowId" value="@ViewBag.show.ShowId" />
+            <input type="hidden" asp-for="SeatStatus" id="seat_status" />
             <div class="form-group">
-                <label asp-for="ShowId" class="control-label"></label>
-                <select asp-for="ShowId" class="form-control" asp-items="ViewBag.ShowId"></select>
-                <span asp-validation-for="ShowId" class="text-danger"></span>
+                @{ int nRows = (int)ViewBag.room.NumberRows;
+                    int nCols = (int)ViewBag.room.NumberCols;
+                    string seatStatus = new string('0', nRows * nCols);
+                    char[] seats = seatStatus.ToCharArray();
+
+                    for (int i = 0; i < ViewBag.bookings.SeatStatus.Length; i++)
+                        if (ViewBag.bookings.SeatStatus[i] == '1') seats[i] = '1';
+
+
+                    for (int i = 0; i < nRows; i++)
+                    {
+                        for (int j = 0; j < nCols; j++)
+                        {
+                            int index = i * nCols + j;
+                            if (seats[index] == '1')
+                            {
+        <input type="checkbox" name="@index" checked  onchange="setPrice(this)" />}
+    else
+    {
+        <input type="checkbox" name="@index" onchange="setPrice(this)" /> }
+    if (j == nCols - 1)
+    {
+        <br /> }
+}
+
+} }
             </div>
+            <script type="text/javascript">
+    let amount = @ViewBag.bookings.Amount;
+    let price = @ViewBag.show.Price;
+    let types = [];
+    for (let i = 0; i < @(nRows * nCols); i++) {
+        types.push('0');
+    }
+    function setPrice(checkbox) {
+        if (checkbox.checked) {
+            amount += price;
+            types[checkbox.name] = '1';
+        } else {
+            amount -= price;
+            types[checkbox.name] = '0';
+        }
+        $('#amount').val(amount);
+        $('#seat_status').val(types.join(''));
+    }
+            </script>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SeatStatus" class="control-label"></label>
-                <input asp-for="SeatStatus" class="form-control" />
-                <span asp-validation-for="SeatStatus" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
+                <input asp-for="Amount" class="form-control" id="amount" readonly/>
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,6 +81,7 @@
     </div>
 </div>
 
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
@@ -47,3 +89,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
