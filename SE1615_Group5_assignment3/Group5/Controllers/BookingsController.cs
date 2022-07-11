@@ -99,6 +99,7 @@ namespace Group5.Controllers
             {
                 return NotFound();
             }
+<<<<<<< Updated upstream
 
             var booking = await _context.Bookings.FindAsync(id);
             var show = await _context.Shows
@@ -112,6 +113,18 @@ namespace Group5.Controllers
             ViewData["room"] = await _context.Rooms
                 .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
             return View(booking);
+=======
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.BookingId == id);
+            var show = await _context.Shows
+                .FirstOrDefaultAsync(s => s.ShowId == booking.ShowId);
+            ViewData["booking"] = await _context.Bookings.FindAsync(id);
+            ViewData["bookings"] = await _context.Bookings.Where(b => b.BookingId != id).ToListAsync();
+            ViewData["room"] = await _context.Rooms
+                .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
+            ViewData["show"] = show;
+            return View();
+>>>>>>> Stashed changes
         }
 
         // POST: Bookings/Edit/5
@@ -147,10 +160,14 @@ namespace Group5.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
             }
+<<<<<<< Updated upstream
             //return View(booking);
             return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
+=======
+            return View();
+>>>>>>> Stashed changes
         }
         // GET: Bookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -167,7 +184,7 @@ namespace Group5.Controllers
                 return NotFound();
             }
 
-            return View(booking);
+            return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
         }
 
         // POST: Bookings/Delete/5

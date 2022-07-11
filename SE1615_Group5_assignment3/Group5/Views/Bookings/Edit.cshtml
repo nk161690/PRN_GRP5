@@ -9,43 +9,50 @@
 
 <h4>Booking</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="BookingId" value=" @ViewBag.bookings.BookingId" />
-            <input type="hidden" asp-for="ShowId" value="@ViewBag.show.ShowId" />
-            <input type="hidden" asp-for="SeatStatus" id="seat_status" />
-            <div class="form-group">
-                @{ int nRows = (int)ViewBag.room.NumberRows;
-                    int nCols = (int)ViewBag.room.NumberCols;
-                    string seatStatus = new string('0', nRows * nCols);
-                    char[] seats = seatStatus.ToCharArray();
+<div class="col-md-4">
+    @{
+        int nRows = (int)ViewBag.room.NumberRows;
+        int nCols = (int)ViewBag.room.NumberCols;
+        string seatStatus = new string('0', nRows * nCols);
+        char[] seats = seatStatus.ToCharArray();
+        char[] B_seat = seatStatus.ToCharArray();
+        foreach (Booking b in ViewBag.bookings)
+        {
+            for (int i = 0; i < b.SeatStatus.Length; i++)
+                if (b.SeatStatus[i] == '1') seats[i] = '1';
+        }
+        for (int i = 0; i < ViewBag.booking.SeatStatus.Length; i++)
+        {
+            if (ViewBag.booking.SeatStatus[i] == '1') B_seat[i] = '1';
+        }
+        for (int i = 0; i < nRows; i++)
+        {
+            for (int j = 0; j < nCols; j++)
+            {
+                int index = i * nCols + j;
+                if (B_seat[index] == '1')
+                {
+                     <input type="checkbox" name="@index" checked onchange="setPrice(this)" />
+                }
+                else if (seats[index] == '1')
+                {
+                            <input type="checkbox" name="@index" checked disabled />
+                }
+                else
+                {
+                            <input type="checkbox" name="@index" onchange="setPrice(this)" />
+                }
+                if (j == nCols - 1)
+                {
+                            <br />
+                }
+            }
 
-                    for (int i = 0; i < ViewBag.bookings.SeatStatus.Length; i++)
-                        if (ViewBag.bookings.SeatStatus[i] == '1') seats[i] = '1';
-
-
-                    for (int i = 0; i < nRows; i++)
-                    {
-                        for (int j = 0; j < nCols; j++)
-                        {
-                            int index = i * nCols + j;
-                            if (seats[index] == '1')
-                            {
-        <input type="checkbox" name="@index" checked  onchange="setPrice(this)" />}
-    else
-    {
-        <input type="checkbox" name="@index" onchange="setPrice(this)" /> }
-    if (j == nCols - 1)
-    {
-        <br /> }
-}
-
-} }
-            </div>
-            <script type="text/javascript">
-    let amount = @ViewBag.bookings.Amount;
+        }
+    }
+</div>
+<script type="text/javascript">
+    let amount = @ViewBag.booking.Amount;
     let price = @ViewBag.show.Price;
     let types = [];
     for (let i = 0; i < @(nRows * nCols); i++) {
@@ -54,24 +61,35 @@
     function setPrice(checkbox) {
         if (checkbox.checked) {
             amount += price;
-            types[checkbox.name] = '1';
+            $("input[type='checkbox']").each(function() {
+               if (this.checked && !this.disabled) {types[this.name] = 1} else {types[this.name] = 0}       
+            });
         } else {
-            amount -= price;
-            types[checkbox.name] = '0';
+            amount -= price;  
+            $("input[type='checkbox']").each(function() {
+               if (this.checked && !this.disabled) {types[this.name] = 1} else {types[this.name] = 0}    
+            });
         }
         $('#amount').val(amount);
         $('#seat_status').val(types.join(''));
     }
-            </script>
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BookingId" value=" @ViewBag.booking.BookingId" />
+            <input type="hidden" asp-for="ShowId" value="@ViewBag.show.ShowId" />
+            <input type="hidden" asp-for="SeatStatus" id="seat_status" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" value="@ViewBag.booking.Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
           
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" id="amount" readonly/>
+                <input asp-for="Amount" class="form-control" id="amount" value="@ViewBag.booking.Amount" readonly/>
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
