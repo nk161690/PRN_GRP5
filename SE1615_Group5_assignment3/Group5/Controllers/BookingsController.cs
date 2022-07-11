@@ -134,12 +134,8 @@ namespace Group5.Controllers
                   
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
-<<<<<<< Updated upstream
-                     return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
-                 
-=======
                     return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
->>>>>>> Stashed changes
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
