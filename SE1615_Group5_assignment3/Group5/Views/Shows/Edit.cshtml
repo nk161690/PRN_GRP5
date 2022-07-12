@@ -46,7 +46,7 @@
 <script type="text/javascript">
     function checkPrice() {
         var price = document.getElementById('price').value;
-        if (price < 0) {
+        if (price < 0 || price > 999999) {
             document.getElementById('alert').innerHTML = "price must be from 0 to 999,999";
             document.getElementById('alert').style.color = 'red';
             document.getElementById('create').disabled = true;
