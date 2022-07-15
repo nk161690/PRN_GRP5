@@ -93,7 +93,7 @@ namespace Group5.Controllers
         }
 
         // GET: Bookings/Edit/5
-         public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -111,7 +111,6 @@ namespace Group5.Controllers
             ViewData["bookings"] = await _context.Bookings.Where(b => b.BookingId != id).ToListAsync();
             ViewData["room"] = await _context.Rooms
                 .FirstOrDefaultAsync(r => r.RoomId == show.RoomId);
-            ViewData["show"] = show;
             return View();
         }
 
@@ -131,7 +130,7 @@ namespace Group5.Controllers
             {
                 try
                 {
-                  
+
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
@@ -161,11 +160,14 @@ namespace Group5.Controllers
 
             var booking = await _context.Bookings
                 .FirstOrDefaultAsync(m => m.BookingId == id);
+            var show = await _context.Shows
+                .FirstOrDefaultAsync(s => s.ShowId == booking.ShowId);
+            ViewData["show"] = show;
             if (booking == null)
             {
                 return NotFound();
             }
-
+            ViewData["bookings"] = booking;
             return View(booking);
         }
 
@@ -177,7 +179,7 @@ namespace Group5.Controllers
             var booking = await _context.Bookings.FindAsync(id);
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();
-         return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
+            return RedirectToAction("Index", "Bookings", new { id = booking.ShowId });
         }
 
         private bool BookingExists(int id)
