@@ -65,11 +65,14 @@ namespace CoffeeManagement.Controllers
             var food = HttpContext.Request.Form["item"].ToString();
             var amount = HttpContext.Request.Form["amount"].ToString();
             var id = HttpContext.Request.Form["id"].ToString();
+            var bill = await _context.Bills.Where(b => b.Table.Id == int.Parse(id)).ToListAsync();
 
             TableCoffee tableCoffee = new TableCoffee(int.Parse(id), "Table " + id, "Occupied");
-            Bill bill = new Bill(int.Parse(id), 0, 0, 0);
             _context.Update(tableCoffee);
-            _context.Update(bill);
+            if (bill.Count == 0)
+            {
+                _context.Add(new Bill(int.Parse(id), 0, 0, 0));
+            }
             await _context.SaveChangesAsync();
             Bill b = await _context.Bills.Where(b => b.TableId == int.Parse(id)).FirstOrDefaultAsync();
             BillInfo bf = new BillInfo(b.Id, int.Parse(food), int.Parse(amount));

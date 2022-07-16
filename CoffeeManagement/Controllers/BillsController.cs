@@ -96,17 +96,17 @@ namespace CoffeeManagement.Controllers
             var discount = HttpContext.Request.Form["discount"].ToString();
             var Bcontext = _context.Bills.Include(b => b.Table).Include(b => b.BillInfos);
             var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b => b.Bill);
-            var bill = await Bcontext.Where(b => b.Table.Id == id).FirstOrDefaultAsync();
+            var bill = await Bcontext.FirstOrDefaultAsync(b => b.Table.Id == id);
             List<BillInfo> lbf = await BFcontext.Where(b => b.BillId == bill.Id).ToListAsync();
             int totalPrc = 0;
             foreach(var billInfo in lbf)
             {
                 totalPrc += billInfo.Food.Price * billInfo.Amount;
             }
-            Bill b = new Bill(bill.Id, id, 0, totalPrc - (totalPrc * int.Parse(discount) / 100), 1);
-            TableCoffee tableCoffee = new TableCoffee(id, "Table " + id, "blank");
-            _context.Update(b);
-            _context.Update(tableCoffee);
+            bill.TotalPrice = totalPrc - (totalPrc * int.Parse(discount) / 100);
+            bill.Status = 1;
+            TableCoffee tableCoffee = await _context.TableCoffees.FirstOrDefaultAsync(t => t.Id == id);
+            tableCoffee.Status = "Blank";
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "TableCoffees");
         }
