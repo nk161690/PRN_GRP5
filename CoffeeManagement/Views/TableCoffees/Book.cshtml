@@ -66,8 +66,8 @@
                                 @(item.Amount * item.Food.Price)VND
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a href="#" data-toggle="modal" data-target="#edit" data-id="@item.Id" data-name="@item.Food.Name">Edit</a>
+                                <a href="#" data-toggle="modal" data-target="#delete" data-id="@item.Id" data-name="@item.Food.Name">Delete</a>
                             </td>
                         </tr>
                     }
@@ -79,6 +79,10 @@
 
 <div class="col-md-4">
     <form asp-controller="Bills" asp-action="Edit" asp-route-id="@ViewBag.id">
+        <div class="form-group">
+            <label for="name" class="control-label">Name:</label>
+            <input type="text" class="form-control" name="name" id="name" pattern="[A-Za-z ]{1,50}" />
+        </div>
         <div class="form-group">
             <label for="discount" class="control-label">Discount:</label>
             <select class="form-control" id="discount" name="discount">
@@ -96,6 +100,70 @@
     <a asp-action="Index">Back</a>
 </div>
 
+<div id="edit" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="BillInfoes" asp-action="Edit">
+                    <input type="hidden" name="tableId" id="tableId" value="@ViewBag.id" />
+                    <input type="hidden" name="billId" id="billId" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Item</label>
+                                <input class="form-control" type="text" id="itemName" name="itemName" readonly >
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Amount:</label>
+                                <input type="number" class="form-control" id="amountEdit" name="amountEdit" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal custom-modal fade" id="delete" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form asp-controller="BillInfoes" asp-action="Delete">
+                    <input type="hidden" name="tableId" id="tableId" value="@ViewBag.id" />
+                    <input type="hidden" name="delBill" id="delBill" />
+                    <input type="hidden" name="delName" id="delName" />
+                    <div class="form-header">
+                        <h3>Delete</h3>
+                        <p>Are you sure want to delete?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="submit" value="Delete" href="" class="btn btn-primary continue-btn">
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#item').html('<option>-- Select an item --</option>');
@@ -110,6 +178,27 @@
                 });
                 $('#item').html(item);
             });
+        });
+    });
+    $(function() {
+        $('input[type="text"]').change(function() {
+            this.value = $.trim(this.value);
+        });
+    })
+    $(function() {
+        $("#edit").on("show.bs.modal", function(e) {
+            var id = $(e.relatedTarget).attr('data-id').trim();
+            var name = $(e.relatedTarget).attr('data-name').trim();
+            $(e.currentTarget).find('#billId').val(id);
+            $(e.currentTarget).find('#itemName').val(name);
+        });
+    });
+    $(function() {
+        $("#delete").on("show.bs.modal", function(e) {
+            var id = $(e.relatedTarget).attr('data-id').trim();
+            var name = $(e.relatedTarget).attr('data-name').trim();
+            $(e.currentTarget).find('#delBill').val(id);
+            $(e.currentTarget).find('#delName').val(name);
         });
     });
 </script>

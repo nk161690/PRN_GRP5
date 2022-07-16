@@ -94,6 +94,7 @@ namespace CoffeeManagement.Controllers
         public async Task<IActionResult> Edit(int id , IFormCollection formCollection)
         {
             var discount = HttpContext.Request.Form["discount"].ToString();
+            var name = HttpContext.Request.Form["name"].ToString();
             var Bcontext = _context.Bills.Include(b => b.Table).Include(b => b.BillInfos);
             var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b => b.Bill);
             var bill = await Bcontext.FirstOrDefaultAsync(b => b.Table.Id == id);

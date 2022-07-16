@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoffeeManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CoffeeManagement.Controllers
 {
@@ -94,36 +95,16 @@ namespace CoffeeManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BillId,FoodId,Amount")] BillInfo billInfo)
+        public async Task<IActionResult> Edit(IFormCollection formCollection)
         {
-            if (id != billInfo.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(billInfo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BillInfoExists(billInfo.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BillId"] = new SelectList(_context.Bills, "Id", "Id", billInfo.BillId);
-            ViewData["FoodId"] = new SelectList(_context.Foods, "Id", "Name", billInfo.FoodId);
-            return View(billInfo);
+            var id = HttpContext.Request.Form["billId"].ToString();
+            var tid = HttpContext.Request.Form["tableId"].ToString();
+            var name = HttpContext.Request.Form["itemName"].ToString();
+            var amount = HttpContext.Request.Form["amountEdit"].ToString();
+            var item = await _context.BillInfos.FirstOrDefaultAsync(b => b.Id == int.Parse(id) && b.Food.Name == name);
+            item.Amount = int.Parse(amount);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Book", "TableCoffees", new { id = tid });
         }
 
         // GET: BillInfoes/Delete/5
@@ -149,12 +130,15 @@ namespace CoffeeManagement.Controllers
         // POST: BillInfoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(IFormCollection iformcollection)
         {
-            var billInfo = await _context.BillInfos.FindAsync(id);
-            _context.BillInfos.Remove(billInfo);
+            var id = HttpContext.Request.Form["delBill"].ToString();
+            var tid = HttpContext.Request.Form["tableId"].ToString();
+            var name = HttpContext.Request.Form["delName"].ToString();
+            var item = await _context.BillInfos.FirstOrDefaultAsync(b => b.Id == int.Parse(id) && b.Food.Name == name);
+            _context.BillInfos.Remove(item);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Book", "TableCoffees", new { id = tid });
         }
 
         private bool BillInfoExists(int id)

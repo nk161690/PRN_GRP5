@@ -71,7 +71,7 @@ namespace CoffeeManagement.Controllers
             _context.Update(tableCoffee);
             if (bill.Count == 0)
             {
-                _context.Add(new Bill(int.Parse(id), 0, 0, 0));
+                _context.Add(new Bill(int.Parse(id), 0, 0, 0, ""));
             }
             await _context.SaveChangesAsync();
             Bill b = await _context.Bills.Where(b => b.TableId == int.Parse(id)).FirstOrDefaultAsync();
