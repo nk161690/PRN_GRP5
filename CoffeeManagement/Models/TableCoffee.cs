@@ -16,6 +16,13 @@ namespace CoffeeManagement.Models
         public string Name { get; set; }
         public string Status { get; set; }
 
+        public TableCoffee(int id, string name, string status)
+        {
+            Id = id;
+            Name = name;
+            Status = status;
+        }
+
         public virtual ICollection<Bill> Bills { get; set; }
     }
 }

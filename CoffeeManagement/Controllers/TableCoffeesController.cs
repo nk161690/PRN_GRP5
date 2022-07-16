@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoffeeManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CoffeeManagement.Controllers
 {
@@ -36,14 +37,37 @@ namespace CoffeeManagement.Controllers
         public async Task<IActionResult> Book(int id)
         {
             ViewData["id"] = id;
-            ViewData["FoodCategory"] = new SelectList(_context.CategoryFoods, "Id", "Name");          
+            var category = _context.CategoryFoods.ToList();
+            category.Insert(0, new CategoryFood { Id = 0, Name = "-- Select category --" });
+            ViewData["FoodCategory"] = new SelectList(category, "Id", "Name");
             return View();
         }
 
-        public JsonResult GetFoodList(String Id)
+        public JsonResult Food(int id)
         {
-            List<Food> list = _context.Foods.Where(f => f.Id == int.Parse(Id)).ToList();   
-            return Json(list);
+            var food = _context.Foods
+                .Where(f => f.CategoryId == id)
+                .Select(s => new
+                {
+                    Id = s.Id,
+                    Item = string.Format("{0}/VND{1}", s.Name, s.Price)
+                }).ToList();
+            return Json(new SelectList(food, "Id", "Item"));
+        }
+
+        // POST: BookTable
+        [HttpPost]
+        public async Task<IActionResult> Book(FormCollection formCollection)
+        {
+            var cate = HttpContext.Request.Form["category"].ToString();
+            var food = HttpContext.Request.Form["item"].ToString();
+            var id = HttpContext.Request.Form["id"].ToString();
+            TableCoffee tableCoffee = new TableCoffee(int.Parse(id), "Table " + id, "Occupied");
+            _context.Update(tableCoffee);
+            await _context.SaveChangesAsync();
+
+            ViewData["Items"] = await _context.Foods.Where(f => f.Id == int.Parse(food)).FirstOrDefaultAsync();
+            return Redirect("TableCoffees/Book/" + id);
         }
 
         // GET: TableCoffees/Details/5
