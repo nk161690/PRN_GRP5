@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<div>
+    @{
+        int count = 1;
+        for (int i = 1; i <= ViewBag.TableCoffee.Count; i++)
+        {
+            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#book_table" data-id="@i" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @i</a>
+            count++;
+            if (count == 6)
+            {
+                count = 1;
+                <br />
+            }
+        }
+    }
+</div>
+
+<div id="book_table" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Table Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input class="form-control" type="text" id="tableId" readonly />
+                    <div class="form-group">
+                        <select class="select" id="category" name="category" asp-items="ViewBag.FoodCategory"></select>
+                    </div>
+                    <div class="form-group">
+                        <select class="select" id="item" name="item"></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#book_table").on("show.bs.modal", function(e) {
+            var text = $(e.relatedTarget).attr("data-id").trim();
+            $(e.currentTarget).find("#tableId").val(text);
+            $("#category").change(function() {
+                $.post("@Url.Action("GetFoodList")", { Id: $("#category").val() }, function(data) {
+                    $.each(data, function(index, row) {
+                        $("#item").empty();
+                        $("#item").append("<option value ='" + row.ID + "'>" + row.Name + "/" + row.Price + "</option>")
+                    });
+                });
+            })
+        });
+    });
+    $(function() {
+        $("#book_table").on("show.bs.modal", function(e) {
+            var text = $(e.relatedTarget).attr('data-id').trim();
+            $(e.currentTarget).find('#tableId').val(text);
+        });
+    });
+</script>

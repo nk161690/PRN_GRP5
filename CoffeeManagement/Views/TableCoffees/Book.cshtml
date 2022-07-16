@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Book";
+}
+<script src="js/jquery-3.5.1.min.js"></script>
+<h1></h1>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Booking">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="table" />
+            <div class="form-group">
+                <select class="form-control" id="category" name="category" asp-items="ViewBag.FoodCategory"></select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="item" name="item"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back</a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#table").val(@ViewBag.id);
+        $("#category").change(function() {
+            $.post("@Url.Action("GetFoodList")", { Id: $("#category").val() }, function(data) {
+                $.each(data, function(index, row) {
+                    $("#item").empty();
+                    $("#item").append("<option value ='" + row.ID + "'>" + row.Name + "/" + row.Price + "</option>")
+                });
+            });
+        });
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
