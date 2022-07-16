@@ -49,6 +49,7 @@
                         <th>
                             price
                         </th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,10 @@
                             </td>
                             <td>
                                 @(item.Amount * item.Food.Price)VND
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>
                     }
@@ -79,7 +84,7 @@
             <input type="number" class="form-control" id="discount" name="discount" min="0">
         </div>
         <div class="form-group">
-            <input type="submit" value="Export" class="btn btn-primary" />
+            <input type="submit" value="Order" class="btn btn-primary" />
         </div>
     </form>
     <a asp-action="Index">Back</a>
