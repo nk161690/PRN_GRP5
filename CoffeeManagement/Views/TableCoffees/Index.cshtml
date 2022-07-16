@@ -6,9 +6,14 @@
 <div>
     @{
         int count = 1;
-        for (int i = 1; i <= ViewBag.TableCoffee.Count; i++)
+        foreach(TableCoffee tc in ViewBag.TableCoffee)
         {
-            <a asp-action="Book" asp-route-id="@i" class="btn btn-success" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @i</a>
+            if (tc.Status.Equals("Blank")) {
+                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-success" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @tc.Id</a>
+            } else
+            {
+                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-danger" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @tc.Id</a>
+            }
             count++;
             if (count == 6)
             {

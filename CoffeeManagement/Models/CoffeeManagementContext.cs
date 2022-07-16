@@ -91,12 +91,6 @@ namespace CoffeeManagement.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CheckIn)
-                    .HasColumnType("date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.CheckOut).HasColumnType("date");
-
                 entity.Property(e => e.TableId).HasColumnName("TableID");
 
                 entity.Property(e => e.TotalPrice).HasDefaultValueSql("((0))");

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CoffeeManagement.Models.BillInfo
+
+@{
     ViewData["Title"] = "Book";
 }
 <script src="~/js/jquery-3.5.1.min.js"></script>
@@ -14,10 +16,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="id" value="@ViewBag.id" />
             <div class="form-group">
+                <label for="category" class="control-label">Category:</label>
                 <select class="form-control" id="category" name="category" asp-items="@ViewBag.FoodCategory"></select>
             </div>
             <div class="form-group">
+                <label for="item" class="control-label">Food:</label>
                 <select class="form-control" id="item" name="item"></select>
+            </div>
+            <div class="form-group">
+                <label for="amount" class="control-label">Amount:</label>
+                <input type="number" class="form-control" id="amount" name="amount" min="0">
             </div>
             <div class="form-group">
                 <input type="submit" value="Add" class="btn btn-primary" />
@@ -26,45 +34,73 @@
     </div>
 </div>
 
-<hr />
-
 <div class="row">
-    <div class="col-md-4">
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Amount</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped custom-table mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Food)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (BillInfo item in ViewBag.billInfo)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Food.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @(item.Amount * item.Food.Price)VND
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<div>
+<div class="col-md-4">
+    <form asp-controller="Bills" asp-action="Edit" asp-route-id="@ViewBag.id">
+        <div class="form-group">
+            <label for="discount" class="control-label">Discount:</label>
+            <input type="number" class="form-control" id="discount" name="discount" min="0">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Export" class="btn btn-primary" />
+        </div>
+    </form>
     <a asp-action="Index">Back</a>
 </div>
 
 <script type="text/javascript">
-$(document).ready(function () {
-    $('#item').html('<option>-- Select an item --</option>');
-    $('#category').change(function () {
-        var url = '@Url.Content("~/")' + "TableCoffees/Food";
-        var ddlsource = "#category";
-        $.getJSON(url, { id: $(ddlsource).val() }, function(data) {
-            var item = '<option>-- Select an item --</option>';
-            $('#item').empty();
-            $.each(data, function(i, food) {
-                item += "<option value='" + food.value + "'>" + food.text + "</option>"
+    $(document).ready(function() {
+        $('#item').html('<option>-- Select an item --</option>');
+        $('#category').change(function() {
+            var url = '@Url.Content("~/")' + "TableCoffees/Food";
+            var ddlsource = "#category";
+            $.getJSON(url, { id: $(ddlsource).val() }, function(data) {
+                var item = '<option>-- Select an item --</option>';
+                $('#item').empty();
+                $.each(data, function(i, food) {
+                    item += "<option value='" + food.value + "'>" + food.text + "</option>"
+                });
+                $('#item').html(item);
             });
-            $('#item').html(item);
         });
     });
-}); 
 </script>
 
 @section Scripts {

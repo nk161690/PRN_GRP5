@@ -12,6 +12,12 @@ namespace CoffeeManagement.Models
         public int FoodId { get; set; }
         public int Amount { get; set; }
 
+        public BillInfo(int billId, int foodId, int amount)
+        {
+            BillId = billId;
+            FoodId = foodId;
+            Amount = amount;
+        }
         public virtual Bill Bill { get; set; }
         public virtual Food Food { get; set; }
     }

@@ -12,9 +12,24 @@ namespace CoffeeManagement.Models
             BillInfos = new HashSet<BillInfo>();
         }
 
+        public Bill(int tableId, int discount, int? totalPrice, int status)
+        {
+            TableId = tableId;
+            Discount = discount;
+            TotalPrice = totalPrice;
+            Status = status;
+        }
+
+        public Bill(int id, int tableId, int discount, int? totalPrice, int status)
+        {
+            Id = id;
+            TableId = tableId;
+            Discount = discount;
+            TotalPrice = totalPrice;
+            Status = status;
+        }
+
         public int Id { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime? CheckOut { get; set; }
         public int TableId { get; set; }
         public int Discount { get; set; }
         public int? TotalPrice { get; set; }

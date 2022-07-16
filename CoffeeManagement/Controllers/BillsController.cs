@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoffeeManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CoffeeManagement.Controllers
 {
@@ -90,35 +91,24 @@ namespace CoffeeManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CheckIn,CheckOut,TableId,Discount,TotalPrice,Status")] Bill bill)
+        public async Task<IActionResult> Edit(int id , IFormCollection formCollection)
         {
-            if (id != bill.Id)
+            var discount = HttpContext.Request.Form["discount"].ToString();
+            var Bcontext = _context.Bills.Include(b => b.Table).Include(b => b.BillInfos);
+            var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b => b.Bill);
+            var bill = await Bcontext.Where(b => b.Table.Id == id).FirstOrDefaultAsync();
+            List<BillInfo> lbf = await BFcontext.Where(b => b.BillId == bill.Id).ToListAsync();
+            int totalPrc = 0;
+            foreach(var billInfo in lbf)
             {
-                return NotFound();
+                totalPrc += billInfo.Food.Price * billInfo.Amount;
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(bill);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BillExists(bill.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TableId"] = new SelectList(_context.TableCoffees, "Id", "Name", bill.TableId);
-            return View(bill);
+            Bill b = new Bill(bill.Id, id, 0, totalPrc - (totalPrc * int.Parse(discount) / 100), 1);
+            TableCoffee tableCoffee = new TableCoffee(id, "Table " + id, "blank");
+            _context.Update(b);
+            _context.Update(tableCoffee);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "TableCoffees");
         }
 
         // GET: Bills/Delete/5
