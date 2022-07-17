@@ -34,7 +34,6 @@ namespace Group5
             services.AddControllersWithViews();
             services.AddDbContext<CinemaContext>(option => 
             option.UseSqlServer(conf.GetConnectionString("DbConnection")));
-
             // Enable session middleware
             services.AddDistributedMemoryCache();
 

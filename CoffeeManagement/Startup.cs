@@ -30,9 +30,21 @@ namespace CoffeeManagement
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
+
             services.AddControllersWithViews();
-            services.AddDbContext<CoffeeManagementContext>(option =>
+            services.AddDbContext<CoffeeManagementContext>(option => 
             option.UseSqlServer(conf.GetConnectionString("DbConnection")));
+            // Enable session middleware
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +66,9 @@ namespace CoffeeManagement
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Call UseSession 
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
