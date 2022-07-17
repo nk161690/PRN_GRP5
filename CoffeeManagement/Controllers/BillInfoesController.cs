@@ -20,10 +20,11 @@ namespace CoffeeManagement.Controllers
         }
 
         // GET: BillInfoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var coffeeManagementContext = _context.BillInfos.Include(b => b.Bill).Include(b => b.Food);
-            return View(await coffeeManagementContext.ToListAsync());
+            ViewData["lbf"] = await coffeeManagementContext.Where(b => b.BillId == id).ToListAsync();
+            return View();
         }
 
         // GET: BillInfoes/Details/5

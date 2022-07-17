@@ -22,8 +22,9 @@ namespace CoffeeManagement.Controllers
         // GET: Bills
         public async Task<IActionResult> Index()
         {
-            var coffeeManagementContext = _context.Bills.Include(b => b.Table);
-            return View(await coffeeManagementContext.ToListAsync());
+            var coffeeManagementContext = _context.Bills.Include(b => b.Table).Include(b => b.BillInfos);
+            ViewData["Bill"] = await coffeeManagementContext.ToListAsync();
+            return View();
         }
 
         // GET: Bills/Details/5
@@ -106,6 +107,7 @@ namespace CoffeeManagement.Controllers
             }
             bill.TotalPrice = totalPrc - (totalPrc * int.Parse(discount) / 100);
             bill.Status = 1;
+            bill.Name = name;
             TableCoffee tableCoffee = await _context.TableCoffees.FirstOrDefaultAsync(t => t.Id == id);
             tableCoffee.Status = "Blank";
             await _context.SaveChangesAsync();
