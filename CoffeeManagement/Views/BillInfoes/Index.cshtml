@@ -10,28 +10,28 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Food)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Bill)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Food)
-            </th>
+                Price
+            </th>            
         </tr>
     </thead>
     <tbody>
 @foreach (BillInfo item in ViewBag.lbf) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Food.Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Bill.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Food.Name)
-            </td>
+                @(item.Food.Price * item.Amount)
+            </td>          
         </tr>
 }
     </tbody>

@@ -41,7 +41,7 @@ namespace CoffeeManagement.Controllers
             var category = _context.CategoryFoods.ToList();
             category.Insert(0, new CategoryFood { Id = 0, Name = "-- Select category --" });
             ViewData["FoodCategory"] = new SelectList(category, "Id", "Name");
-            ViewData["billInfo"] = await BFcontext.Where(b => b.Bill.TableId == id).ToListAsync();
+            ViewData["billInfo"] = await BFcontext.Where(b => b.Bill.TableId == id && b.Status == 0).ToListAsync();
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace CoffeeManagement.Controllers
             var food = HttpContext.Request.Form["item"].ToString();
             var amount = HttpContext.Request.Form["amount"].ToString();
             var id = HttpContext.Request.Form["id"].ToString();
-            var bill = await _context.Bills.Where(b => b.Table.Id == int.Parse(id)).ToListAsync();
+            var bill = await _context.Bills.Where(b => b.Table.Id == int.Parse(id) && b.Status == 0).ToListAsync();
 
             TableCoffee tableCoffee = new TableCoffee(int.Parse(id), "Table " + id, "Occupied");
             _context.Update(tableCoffee);
@@ -74,8 +74,8 @@ namespace CoffeeManagement.Controllers
                 _context.Add(new Bill(int.Parse(id), 0, 0, 0, ""));
             }
             await _context.SaveChangesAsync();
-            Bill b = await _context.Bills.Where(b => b.TableId == int.Parse(id)).FirstOrDefaultAsync();
-            BillInfo bf = new BillInfo(b.Id, int.Parse(food), int.Parse(amount));
+            Bill b = await _context.Bills.Where(b => b.TableId == int.Parse(id) && b.Status == 0).FirstOrDefaultAsync();
+            BillInfo bf = new BillInfo(b.Id, int.Parse(food), int.Parse(amount), 0);
             _context.Update(bf);
             await _context.SaveChangesAsync();
             return RedirectToAction("Book", "TableCoffees", new { id = id });
