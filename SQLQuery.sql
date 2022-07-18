@@ -1,6 +1,7 @@
 ﻿create database CoffeeManagement
 go
 
+--drop database CoffeeManagement
 use CoffeeManagement
 go
 
@@ -132,16 +133,10 @@ insert into Food (Name, CategoryID, Price) values (N'Macchiato', 5, 25000)
 go
 
 -- add information into Bill
-insert into Bill (CheckIn, TableID) values (GETDATE(), 1)
-insert into Bill (CheckIn, TableID) values (GETDATE(), 2)
-insert into Bill (CheckIn, TableID) values (GETDATE(), 3)
+
 go
 
 -- add information into BillInfo
-insert into BillInfo (BillID, FoodID, Amount) values (1, 1, 2)
-insert into BillInfo (BillID, FoodID, Amount) values (1, 3, 3)
-insert into BillInfo (BillID, FoodID, Amount) values (2, 2, 1)
-insert into BillInfo (BillID, FoodID, Amount) values (3, 5, 1)
-insert into BillInfo (BillID, FoodID, Amount) values (2, 4, 2)
+
 GO
 

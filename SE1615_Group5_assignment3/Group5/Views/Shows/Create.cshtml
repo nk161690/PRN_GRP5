@@ -16,11 +16,12 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ShowDate" value="@ViewBag.ShowDate" required />
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="RoomId" class="control-label"></label>
                 <select asp-for="RoomId" asp-items="@ViewBag.RoomId" class="form-control" onchange="setSlot()"></select>
                 <span asp-validation-for="RoomId" class="text-danger"></span>
-            </div>
+            </div>*@
+            <input type="text" name="RoomId" value="@ViewBag.RoomId">
             <div class="form-group">
                 <label asp-for="ShowDate" class="control-label"></label>
                 <input type="date" class="form-control" required>
