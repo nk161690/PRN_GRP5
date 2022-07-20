@@ -15,7 +15,7 @@ namespace CoffeeManagement.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly CoffeeManagementContext _context;
+        //private readonly CoffeeManagementContext _context;
 
 
         public HomeController(ILogger<HomeController> logger)
@@ -42,8 +42,8 @@ namespace CoffeeManagement.Controllers
         public IActionResult Login(IFormCollection values)
         {
             string userName, pass, adminUserName, adminPass, staffUserName, staffPass;
-            userName = values["UserName"];
-            pass = values["Password"];
+            userName = values["UserName"].ToString();
+            pass = values["Password"].ToString();
 
             var conf = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -54,13 +54,18 @@ namespace CoffeeManagement.Controllers
             adminPass = conf["Admin:Password"];
             staffUserName = conf["Staff:UserName"];
             staffPass = conf["Staff:Password"];
+
             if (userName == adminUserName && pass == adminPass || userName == staffUserName && pass == staffPass)
             {
+                
                 HttpContext.Session.SetString("UserName", userName);
                 return RedirectToAction(nameof(Index));
             }
             else
-                return View();
+            {
+                ViewData["message"] = "Do not have that account!";
+            }
+            return View();
         }
 
         public IActionResult Logout()

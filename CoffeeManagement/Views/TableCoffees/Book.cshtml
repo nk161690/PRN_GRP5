@@ -10,8 +10,14 @@
 <h4>Table @ViewBag.id</h4>
 <hr />
 
-<div class="row">
+@{
+    int billCount = int.Parse(ViewData["countBillInfo"].ToString());
+}
+
+<div class="row" style="justify-content: space-between;">
     <div class="col-md-4">
+        <h4>Select Food & Drinks:</h4>
+        <br>
         <form asp-action="Book">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="id" value="@ViewBag.id" />
@@ -33,7 +39,40 @@
                 <input type="submit" value="Add" class="btn btn-primary" />
             </div>
         </form>
+        <a asp-action="Index">Back</a>
     </div>
+
+    @if (billCount == 0)
+    {
+
+    }
+    else
+    {
+        <div class="col-md-4" style=" margin-right: 30px;">
+            <h4>Enter Customer: </h4>
+            <br>
+            <form asp-controller="Bills" asp-action="Edit" asp-route-id="@ViewBag.id">
+                <div class="form-group">
+                    <label for="name" class="control-label">Name:</label>
+                    <input type="text" class="form-control" name="name" id="name" pattern="[A-Za-z ]{1,50}" required />
+                </div>
+                <div class="form-group">
+                    <label for="discount" class="control-label">Discount:</label>
+                    <select class="form-control" id="discount" name="discount">
+                        <option>0</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>30</option>
+                        <option>50</option>
+                        <option>70</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Order" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    }
 </div>
 
 <div class="row">
@@ -49,7 +88,7 @@
                             @Html.DisplayNameFor(model => model.Amount)
                         </th>
                         <th>
-                            price
+                            Price
                         </th>
                         <th>Action</th>
                     </tr>
@@ -68,7 +107,7 @@
                                 @(item.Amount * item.Food.Price)VND
                             </td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#edit" data-id="@item.Id" data-name="@item.Food.Name">Edit</a>
+                                <a href="#" data-toggle="modal" data-target="#edit" data-id="@item.Id" data-name="@item.Food.Name" data-amount="@item.Amount">Edit</a>
                                 <a href="#" data-toggle="modal" data-target="#delete" data-id="@item.Id" data-name="@item.Food.Name">Delete</a>
                             </td>
                         </tr>
@@ -79,29 +118,11 @@
     </div>
 </div>
 
-<div class="col-md-4">
-    <form asp-controller="Bills" asp-action="Edit" asp-route-id="@ViewBag.id">
-        <div class="form-group">
-            <label for="name" class="control-label">Name:</label>
-            <input type="text" class="form-control" name="name" id="name" pattern="[A-Za-z ]{1,50}" required/>
-        </div>
-        <div class="form-group">
-            <label for="discount" class="control-label">Discount:</label>
-            <select class="form-control" id="discount" name="discount">
-                <option>0</option>
-                <option>10</option>
-                <option>20</option>
-                <option>30</option>
-                <option>50</option>
-                <option>70</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Order" class="btn btn-primary" />
-        </div>
-    </form>
-    <a asp-action="Index">Back</a>
-</div>
+@if (billCount == 0)
+{
+    <br>
+    <p style="color:gray">This table haven't had any order yet.</p>
+}
 
 <div id="edit" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -120,18 +141,18 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Item</label>
-                                <input class="form-control" type="text" id="itemName" name="itemName" readonly >
+                                <input class="form-control" type="text" id="itemName" name="itemName" readonly>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Amount:</label>
-                                <input type="number" class="form-control" id="amountEdit" name="amountEdit" min="0" max="1000" required>
+                                <input type="number" class="form-control" id="amountEdit" name="amountEdit" min="1" max="1000" required>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    <div class="submit-section" t>
+                    <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
                 </form>
@@ -193,8 +214,10 @@
         $("#edit").on("show.bs.modal", function(e) {
             var id = $(e.relatedTarget).attr('data-id').trim();
             var name = $(e.relatedTarget).attr('data-name').trim();
+            var amount = $(e.relatedTarget).attr('data-amount').trim();
             $(e.currentTarget).find('#billId').val(id);
             $(e.currentTarget).find('#itemName').val(name);
+            $(e.currentTarget).find('#amountEdit').val(amount);
         });
     });
     $(function() {
@@ -211,4 +234,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+}

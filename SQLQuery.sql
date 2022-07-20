@@ -1,4 +1,4 @@
-﻿create database CoffeeManagement
+﻿--create database CoffeeManagement
 go
 
 --drop database CoffeeManagement
@@ -65,8 +65,8 @@ create table BillInfo
 	ID int identity primary key,
 	BillID int not null,
 	FoodID int not null,
-	Amount int not null default 0
-	
+	Amount int not null default 0,
+	Status int not null default 0, -- 1: Da thanh toan, 0: Chua thanh toan
 	foreign key (BillID) references Bill(ID),
 	foreign key (FoodID) references Food(ID)
 )

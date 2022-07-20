@@ -27,3 +27,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+@{
+    var message = ViewData["message"];
+}
+<p style="color:red">@message</p>
+<script type="text/javascript">
+    @*if (@(!alert.Equals(""))) {
+        window.onload = function () {
+            alert('@alert');
+        }
+    }*@
+</script>

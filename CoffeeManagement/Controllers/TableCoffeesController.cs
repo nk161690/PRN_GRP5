@@ -36,11 +36,13 @@ namespace CoffeeManagement.Controllers
         // GET: BookTable
         public async Task<IActionResult> Book(int id)
         {
-            var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b =>b.Bill);
+            var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b => b.Bill);
             ViewData["id"] = id;
             var category = _context.CategoryFoods.ToList();
             ViewData["FoodCategory"] = new SelectList(category, "Id", "Name");
             ViewData["billInfo"] = await BFcontext.Where(b => b.Bill.TableId == id && b.Status == 0).ToListAsync();
+            var billInfo = await BFcontext.Where(b => b.Bill.TableId == id && b.Status == 0).ToListAsync();
+            ViewData["countBillInfo"] = billInfo.Count;
             return View();
         }
 
