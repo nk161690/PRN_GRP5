@@ -39,7 +39,6 @@ namespace CoffeeManagement.Controllers
             var BFcontext = _context.BillInfos.Include(b => b.Food).Include(b =>b.Bill);
             ViewData["id"] = id;
             var category = _context.CategoryFoods.ToList();
-            category.Insert(0, new CategoryFood { Id = 0, Name = "-- Select category --" });
             ViewData["FoodCategory"] = new SelectList(category, "Id", "Name");
             ViewData["billInfo"] = await BFcontext.Where(b => b.Bill.TableId == id && b.Status == 0).ToListAsync();
             return View();

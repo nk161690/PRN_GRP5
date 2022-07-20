@@ -39,11 +39,16 @@
                         @{
                             if (user == "staff")
                             {
-                                
+
                             }
                             if (user == "admin")
                             {
-                                
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="CategoryFoods" asp-action="Index">Manage FoodCategory</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Foods" asp-action="Index">ManageFood</a>
+                                </li>
                             }
                             if (user == "")
                             {

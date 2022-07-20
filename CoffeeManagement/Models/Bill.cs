@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -34,6 +35,7 @@ namespace CoffeeManagement.Models
         public int Id { get; set; }
         public int TableId { get; set; }
         public int Discount { get; set; }
+        [Range(0,999999)]
         public int? TotalPrice { get; set; }
         public int Status { get; set; }
         public string Name { get; set; }
