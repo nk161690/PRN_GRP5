@@ -59,7 +59,7 @@ namespace CoffeeManagement.Controllers
             {
                 
                 HttpContext.Session.SetString("UserName", userName);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TableCoffees");
             }
             else
             {

@@ -24,25 +24,27 @@
                 }
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TableCoffees" asp-action="Index">Table Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
-                        </li>
+                        @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>*@
                         @{
                             if (user == "staff")
                             {
-
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TableCoffees" asp-action="Index">Table Booking</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
+                                </li>
                             }
                             if (user == "admin")
                             {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TableCoffees" asp-action="Index">Table Booking</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="CategoryFoods" asp-action="Index">Manage FoodCategory</a>
                                 </li>
@@ -59,10 +61,13 @@
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout (@user)</a>
+                                    <a class="nav-link text-dark" asp-area="" data-toggle="modal" data-target="#logout">Logout (@user)</a>
                                 </li>
                             }
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">About</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -73,7 +78,30 @@
             @RenderBody()
         </main>
     </div>
-
+    <div class="modal custom-modal fade" id="logout" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form asp-controller="Home" asp-action="Logout">
+                        <div class="form-header" style="text-align:center">
+                            <h3>Logout</h3>
+                            <p style="margin-bottom: 35px;">Are you sure want to logout?</p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row" style="text-align:center">
+                                <div class="col-6">
+                                    <input type="submit" value="Yes" href="" class="btn btn-primary continue-btn" style="padding: 10px 70px">
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" style="padding: 10px 70px">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - CoffeeManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

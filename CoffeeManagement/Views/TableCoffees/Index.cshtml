@@ -2,17 +2,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-<div>
+<div style="text-align: center; margin-top: 25px; margin-right: 100px;">
+    <h1>Tables:</h1>
+    <br>
     @{
         int count = 1;
-        foreach(TableCoffee tc in ViewBag.TableCoffee)
+        foreach (TableCoffee tc in ViewBag.TableCoffee)
         {
-            if (tc.Status.Equals("Blank")) {
-                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-success" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @tc.Id</a>
-            } else
+            if (tc.Status.Equals("Blank"))
             {
-                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-danger" style="width: 75px; margin: 2px"><i class="fa fa-plus"></i> Table @tc.Id</a>
+                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-success" style="width: 75px; margin-bottom: 3px;"><i class="fa fa-plus"></i> Table @tc.Id</a>
+            }
+            else
+            {
+                <a asp-action="Book" asp-route-id="@tc.Id" class="btn btn-danger" style="width: 75px; margin-bottom: 3px;"><i class="fa fa-plus"></i> Table @tc.Id</a>
             }
             count++;
             if (count == 6)
