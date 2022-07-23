@@ -20,8 +20,8 @@ namespace CinemaWin.DAL
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
 
-                // strConn = conf["ConnectionStrings:DbConnection"];
-                strConn = conf.GetConnectionString("DbConnection");
+            // strConn = conf["ConnectionStrings:DbConnection"];
+            strConn = conf.GetConnectionString("DbConnection");
         }
 
         public DataTable GetDataTable(string sql)
