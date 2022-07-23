@@ -11,10 +11,10 @@ namespace CinemaWin.DTL
         public int FilmId { get; set; }
         public int GenreID { get; set; }
         public string Title
-      { get; set; }
+        { get; set; }
         public int Year { get; set; }
-       
+
         public String CodeCoutry { get; set; }
-      
+
     }
 }

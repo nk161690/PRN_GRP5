@@ -33,6 +33,11 @@ namespace CoffeeManagement.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Index1()
+        {    
+            return View(await _context.TableCoffees.ToListAsync());
+        }
+
         // GET: BookTable
         public async Task<IActionResult> Book(int id)
         {
