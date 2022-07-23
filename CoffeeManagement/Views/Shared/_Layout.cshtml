@@ -25,8 +25,8 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>*@
                         @{
                             if (user == "staff")
                             {
@@ -46,11 +46,15 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TableCoffees" asp-action="Index1">ManageTable</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="CategoryFoods" asp-action="Index">Manage FoodCategory</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Foods" asp-action="Index">ManageFood</a>
                                 </li>
+
                             }
                             if (user == "")
                             {
