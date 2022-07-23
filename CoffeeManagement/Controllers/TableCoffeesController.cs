@@ -108,7 +108,14 @@ namespace CoffeeManagement.Controllers
         // GET: TableCoffees/Create
         public IActionResult Create()
         {
-            return View();
+            TableCoffee tc = new TableCoffee();
+            _context.Add(tc);
+            _context.SaveChanges();
+            TableCoffee table = _context.TableCoffees.OrderBy(t => t.Id).Last();
+            table.Name = "Table " + table.Id.ToString();
+            table.Status = "Blank";
+            _context.SaveChanges();
+            return RedirectToAction("Index1", "TableCoffees");
         }
 
         // POST: TableCoffees/Create
